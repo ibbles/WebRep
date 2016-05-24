@@ -2,6 +2,12 @@
 A web server used to store, search, view and edit recipes using a browser.
 
 
+## Usage
+- Checkout the repository
+- run `npm install` to download dependencies.
+- run `./bin/www` to start the server.
+- point your browser to `http://localhost:3000/`.
+
 
 ## Dependencies and initial setup.
 
