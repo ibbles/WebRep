@@ -55,12 +55,17 @@ See "NodeJS MongoDB Tutorial" by Derek Banas.
 > https://www.youtube.com/watch?v=Do_Hsb_Hs3c
 
 Edit package.json created by express.
-Add
+In the "dependencies" scope, change
 ```
-    "kerberos": "~0.0.17",
-    "mongodb": "~2.0.33"
+"serve-favicon": "~2.3.0"
 ```
-to the "dependencies" scope. Unsure about the version numbers.
+to
+```
+"serve-favicon": "~2.3.0",
+"kerberos": "~0.0.17",
+"mongodb": "~2.0.33"
+```
+Unsure about the version numbers.
 
 
 ### Finalization
