@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Recipies</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+
+    <h3>Recipies</h3>
+    <ul>
+        <% recipieslist.forEach(function(recipie) { %>
+            <li><%= recipie.tip %></li>
+        <% }); %>
+    </ul>
+  </body>
+
+</html>
