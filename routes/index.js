@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
 
 router.get("/thelist", function (reqest, response) {
     var database = mongodb.MongoClient,
-        url = "mongodb://localhost:27017/recipies";
+        url = "mongodb://localhost:27017/recipes";
     database.connect(url, function (error, db) {
         if (error) {
             console.log("Unable to connect to server.", error);
