@@ -20,6 +20,8 @@ router.get("/thelist", function (reqest, response) {
     database.connect(url, function (error, db) {
         if (error) {
             console.log("Unable to connect to server.", error);
+            response.write("Web server could not connect to database.");
+            response.end();
         } else {
             console.log("Connection established.");
             var collection = db.collection("recipies");
@@ -27,6 +29,7 @@ router.get("/thelist", function (reqest, response) {
                 if (error) {
                     response.send(error);
                 } else if (result.length) {
+                    console.log("Got " + result.length + " recipes.");
                     console.log("About to render page with the following recipies:");
                     result.forEach(function (recipie) {
                         console.log(recipie);
@@ -34,6 +37,10 @@ router.get("/thelist", function (reqest, response) {
                     response.render('recipieslist', {
                         "recipieslist": result
                     });
+                } else {
+                    console.log("Got no recipes. Databse is empty.");
+                    response.write("There are no recipes in the database.");
+                    response.end();
                 }
             });
         }
