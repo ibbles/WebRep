@@ -2,18 +2,15 @@
 A web server used to store, search, view and edit recipes using a browser.
 
 
-## Usage
+## User Initial Setup
+- Install NodeJS
+- Install MongoDB
+- Install Git
 - Checkout the repository
-- run `npm install` to download dependencies.
-- run `./bin/www` to start the server.
-- point your browser to [http://localhost:3000/](http://localhost:3000/).
+- Use npm to install dependencies.
+- Start the server
+- Point your browser to [http://localhost:3000/](http://localhost:3000/).
 
-
-## Dependencies and initial setup.
-
-This section lists the external libraries that WebRep depends on and the steps that was used to initialize it.
-
-These steps are not required when simply using or extending the application using the existing dependencies.
 
 ### NodeJS
 Using NodeJS, a server-side JavaScript runner using Google's V8.
@@ -34,16 +31,54 @@ undefined
 > process.exit(0);
 ```
 
+
+### MongoDB
+
+Install MongoDB from
+
+> https://www.mongodb.com/download-center?jmp=nav#community
+
+- Create folder for temporary database.
+- Go to MongoDB installation folder in cmd prompt
+- Use cmd prompt to run `bin/mongod --dbpath <temporary database path>`
+
+### Git
+
+Install Git from
+
+> https://git-scm.com/downloads
+
+
+### CMD Prompt
+
+- Go to repository folder in cmd prompt.
+- Use cmd prompt to run `npm install` to download dependencies.
+- Use cmd prompt to run `node ./bin/www` to start the server.
+
+
+## Project dependencies and initial setup.
+
+This section lists the external libraries that WebRep depends on and the steps that was used to initialize it.
+
+These steps are not required when simply using or extending the application using the existing dependencies.
+
+Dependencies:
+
+- NodeJS
+- MongoDB
+
+
 ### http
 Using NodeJS module http for network management.
 I think this is a core module.
 
 
-### connect
+### Connect
 Using NodeJS module Connect for request management.
 ```
 $ npm install connect
 ```
+
 
 ### Express
 Using NodeJS module Express for project generation application structure.
@@ -53,6 +88,7 @@ $ cd <project folder>
 $ express <project name> --ejs
 $ cd <project name>
 ```
+
 
 ### MongoDB
 Using MongoDB for storage.
