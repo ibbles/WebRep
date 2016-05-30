@@ -6,7 +6,7 @@ var router = express.Router();
 var mongodb = require("mongodb");
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
 
     res.render('index', {
         title: 'Recept',
@@ -15,8 +15,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.get("/thelist", function (reqest, response) {
-    var database = mongodb.MongoClient,
-        url = "mongodb://localhost:27017/recipes";
+    var database = mongodb.MongoClient;
+    var url = "mongodb://localhost:27017/recipes";
     database.connect(url, function (error, db) {
         if (error) {
             console.log("Unable to connect to server.", error);
