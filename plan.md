@@ -5,6 +5,7 @@
 
 ## By category
 
+
 # Search existing recipes
 
 ## By name
@@ -20,12 +21,19 @@
 
 ## Scale ingredient amount by availability 
 
+
 # Edit existing recipe
 
-# Recipe content
 
-* Ingredient list
-* Category
-  * Hierarchical
+# Recipe content
+* Category, hierarchical
+* Title
+* Amount
+* Ingredient list, grouped by component
+  * Amount
+  * Unit
+  * Name (modifier)
+* Oven degrees
+* Instructions, grouped by component
+* Tips
 * Image
-* Instructions
