@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
 
     res.render('index', {
         title: 'Recept',
-        name: "Bucky"
+
     });
 });
 
@@ -48,3 +48,4 @@ router.get("/thelist", function (reqest, response) {
 });
 
 module.exports = router;
+
