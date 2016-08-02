@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var favicon = require('serve-favicon');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -23,8 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/readRecipe', readRecipe);
-app.use('/favicon.ico', function(err, req, res) {
-});
+app.use(favicon(__dirname + '/Images/Icons/Food-Dome-32.png'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
