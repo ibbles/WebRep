@@ -47,6 +47,8 @@ Install MongoDB from
 Install Git from
 
 > https://git-scm.com/downloads
+> Use Git to clone existing repository from:
+>   https://github.com/ibbles/WebRep.git
 
 
 ### CMD Prompt
