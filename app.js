@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var readRecipe = require('./routes/readRecipe')
 
 var app = express();
 
@@ -21,9 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/readRecipe', readRecipe);
 app.use('/favicon.ico', function(err, req, res) {
-    res.status(404);
-    res.end();
 });
 
 // catch 404 and forward to error handler
