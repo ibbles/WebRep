@@ -8,8 +8,15 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
-    <a href="readRecipe">Import Recipe from .txt</a>
-    </br>
-    <a href="users">My Page</a>
+    <h3>Recipies</h3>
+    <ul>
+        <% recipieslist.forEach(function(recipie) { %>
+            <li><%= recipie.tip %></li>
+        <% }); %>
+    </ul>
+
+    <a href="readRecipe">Display recipe from .txt</a> </br>
+    <a href="getRecipe">Import recipe from .txt</a> </br>
+    <a href="users">My Page</a> </br>
   </body>
 </html>

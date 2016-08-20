@@ -5,14 +5,16 @@ var router = express.Router();
 
 var mongodb = require("mongodb");
 
-/* GET home page. */
-router.get('/', function (req, res) {
 
+
+router.get('/', function (req, res) {
     res.render('index', {
         title: 'Recept',
-
+        recipieslist: [{tip: "tip1"}, {tip: "tip2"}, {tip: "tip3"}]
     });
 });
+
+
 
 router.get("/thelist", function (reqest, response) {
     var database = mongodb.MongoClient;
