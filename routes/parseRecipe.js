@@ -55,8 +55,15 @@ function createRecipeBuilder() {
         console.log('Parsing categories from "' + line + '".');
         
         /// \todo Proper parsing of categories here.
-        recipe.categories = line;
-        
+        recipe.categories = [];
+        var categoriesList = line.split(";");
+        console.log("Have " + categoriesList.length + " categories");
+        for (var i = 0; i < categoriesList.length-1; i = i+1) {
+            console.log(i + ": '" + categoriesList[i] + "'.");
+            var categoriesSublist = categoriesList[i].split(":");
+            recipe.categories.push(categoriesSublist);
+        }
+        console.log(categoriesList);
         lastParsed = 'categories';
         return true;
     }
@@ -77,10 +84,31 @@ function createRecipeBuilder() {
         console.log('Parsing servings from "' + line + '".');
 
         /// \todo Proper parsing of servings here.
-        recipe.servings = line;
+        recipe.servings = {};
+        recipe.servings.quantity = Number(line.split(" ")[0]);
+        recipe.servings.type = line.split(" ")[1]; 
+
+
+        console.log("Serving '" + recipe.servings.quantity + "' '" + recipe.servings.type + "'.");
 
         lastParsed = 'servings';
         return true;
+    }
+
+
+    function parseIngredients(line) {
+        recipe.ingredients = {};
+        recipe.ingredients.title = line.substr(1);
+        recipe.ingredients.content = [];
+    }
+
+    function parseIngredient(line) {
+        line = line.replace(RegExp("\\s+", "g"), " ");
+        var columns = line.split(RegExp("\\s"));
+        console.log("Ingredient '" + line + "' is split into:");
+        console.log(columns);
+        var ingredient = {};
+        recipe.ingredients.content.push(line); /// \todo Create proper object.
     }
 
 
@@ -95,6 +123,11 @@ function createRecipeBuilder() {
 
     /// Called for every line of the recipe.
     return function(line) {
+        line = line.trim();
+        if (line === "") {
+            return;
+        }
+
         // Determine how far into the recipe we've already come.
         if (lastParsed === '') {
             parseCategories(line);
@@ -105,11 +138,33 @@ function createRecipeBuilder() {
         else if (lastParsed === 'name') {
             parseServings(line);
         }
-        else if (lastParsed === 'servings') {
-            console.log('TODO: Implement more line types');
-        }
+        //else if (lastParsed === 'servings') {
+         //   console.log('TODO: Implement more line types');
+        //}
         else {
-            /// \todo What to do here?
+            // Classify the next line.
+            // Is one of
+            //   *<title>
+            //   ~<temperature>
+            //   -
+            //   +<title>
+            //   !<tips>
+            if (line[0] === '*') {
+                parseIngredients(line);
+            } else if (!isNaN(Number(line.split(" ")[0].replace(",", ".")))) {
+                // Lines started with a number, must be an ingredient.
+                parseIngredient(line);
+            } else if (line[0] === '~') {
+
+            } else if (line[0] === '-') {
+
+            } else if (line[0] === '+') {
+
+            } else if (line[0] === '!') {
+
+            } else {
+                console.log("Don't know how to parse '"+line+"'.");
+            }
         }
     };
 }
