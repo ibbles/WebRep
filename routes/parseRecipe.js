@@ -22,6 +22,7 @@ const router = express.Router();
 
 const filesystem = require('fs');
 const readline = require('readline');
+const util = require('util');
 
 
 // Global name of a function defined inside createRecipeBuilder that returns the
@@ -45,10 +46,13 @@ function createRecipeBuilder() {
     /// This is the object that is being filled in with every call to one of the
     /// parse.+ functions.
     var recipe = {};
+    recipe.ingredients = [];
+
+    var currentIngredients = undefined;
 
     /// Recipes follow a strict ordering of recipe elements. This tag keeps track
     /// of how far into the recipe we've come.
-    var lastParsed = ''; // One of 'categories', 'name', 'servings', etc.
+    var lastParsed = ''; // One of 'categories', 'title', 'servings', etc.
     
     /// Called when the next line of the recipe is expected to be the categories line.
     function parseCategories(line) {
@@ -68,14 +72,13 @@ function createRecipeBuilder() {
         return true;
     }
 
-    /// Called when the next line of the recipe is expected to be the name.
-    function parseName(line) {
-        console.log('Parsing name from "' + line + '".');
+    /// Called when the next line of the recipe is expected to be the title.
+    function parseTitle(line) {
+        console.log('Parsing Title from "' + line + '".');
 
-        /// \todo Proper parsing of name here.
-        recipe.name = line;
+        recipe.title = line;
 
-        lastParsed = 'name';
+        lastParsed = 'title';
         return true;
     }
 
@@ -97,9 +100,40 @@ function createRecipeBuilder() {
 
 
     function parseIngredients(line) {
-        recipe.ingredients = {};
-        recipe.ingredients.title = line.substr(1);
-        recipe.ingredients.content = [];
+        currentIngredients = {};
+        recipe.ingredients.push(currentIngredients);
+        currentIngredients.title = line.substr(1);
+        currentIngredients.content = [];
+    }
+
+    function extractName(line) {
+        var words = line.split(" ");
+        var name = words[2];
+        for (var i = 3; i < words.length; ++i) {
+            var word = words[i];
+            if (!word[0] == ("(")) {
+                name = name.concat(" ", word);
+            } else {
+                return name;
+            }
+        }
+
+        return name;
+    }
+
+    function extractSpecifics(line) {
+        var words = line.split(" ");
+        var specifics = "";
+        for (var i = 2; i < words.length; ++i) {
+            var word = words[i];
+            if (word[0] == "(") {
+                for (var j = i; j < words.length; ++j) {
+                    specifics = specifics.concat(" ", words[j]);
+                }
+                specifics = specifics.substring(2, specifics.length-1);
+            }
+        }
+        return specifics;
     }
 
     function parseIngredient(line) {
@@ -108,7 +142,11 @@ function createRecipeBuilder() {
         console.log("Ingredient '" + line + "' is split into:");
         console.log(columns);
         var ingredient = {};
-        recipe.ingredients.content.push(line); /// \todo Create proper object.
+        ingredient.quantity = Number(line.split(" ")[0].replace(",", "."));
+        ingredient.type = line.split(" ")[1];
+        ingredient.name = extractName(line);
+        ingredient.specifics = extractSpecifics(line);
+        currentIngredients.content.push(ingredient);
     }
 
 
@@ -133,9 +171,9 @@ function createRecipeBuilder() {
             parseCategories(line);
         }
         else if (lastParsed === 'categories') {
-            parseName(line);
+            parseTitle(line);
         }
-        else if (lastParsed === 'name') {
+        else if (lastParsed === 'title') {
             parseServings(line);
         }
         //else if (lastParsed === 'servings') {
@@ -189,8 +227,8 @@ router.get('/', function(req, res) {
     var recipeBuilder = createRecipeBuilder();
     lines.on('line', recipeBuilder);
     lines.on('close', function() {
-        console.log('End of file. Recipe better be complete by now.');
-        console.log(getRecipe());
+        console.log('\n\nEnd of file. Recipe better be complete by now.');
+        console.log(util.inspect(getRecipe(), { showHidden: true, depth: null }));
         res.send("End of recipe reached."+getRecipe());
     });
 });
