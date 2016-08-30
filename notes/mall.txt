@@ -1,0 +1,28 @@
+Kategori:Underkategori;Kategori:Underkategori:Subkategori;
+
+Titel
+1 st mängd
+
+*Ingredienser 1
+140 g	ingrediens
+2 st	ingrediens (specifikation)
+1,5 dl	ingrediens (specifikation)
+1 tsk	ingrediens 
+1 krm	ingrediens 
+
+*Ingredienser 2
+1 frp	ingrediens 
+1 msk	ingrediens 
+3 kruka	ingrediens 
+
+~xxx°
+-
+Sätt ugnen på xxx°C.
+
++Ingredienser 1
+Beskrivning efter förmåga.
+
++Ingredienser 2
+Mer beskrivning
+
+!Olika tips och trix.
