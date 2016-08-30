@@ -82,6 +82,8 @@ function createRecipeBuilder() {
         return true;
     }
 
+
+
     /// Called when the next line of the recipe is expected to be the servings.
     function parseServings(line) {
         console.log('Parsing servings from "' + line + '".');
@@ -149,6 +151,20 @@ function createRecipeBuilder() {
         currentIngredients.content.push(ingredient);
     }
 
+    function parseOvenTemp(line) {
+        line = line.substr(1);
+        var digits = "";
+        for (var i = 0; i < line.length; ++i) {
+            if (line[i] >= '0' && line[i] <= '9') {
+                digits = digits.concat(line[i]);
+            } else {
+                break;
+            }
+        }
+
+        recipe.ovenTemp = Number(digits);
+    }
+
 
     /// Public getter function. Returns the recipe we just started parsin.
     /// Don't call this until the recipe has been completely parsed.
@@ -190,10 +206,10 @@ function createRecipeBuilder() {
             if (line[0] === '*') {
                 parseIngredients(line);
             } else if (!isNaN(Number(line.split(" ")[0].replace(",", ".")))) {
-                // Lines started with a number, must be an ingredient.
+                // Lines started with a number so must be an ingredient, right. Right? I hope so.
                 parseIngredient(line);
             } else if (line[0] === '~') {
-
+                parseOvenTemp(line);
             } else if (line[0] === '-') {
 
             } else if (line[0] === '+') {
@@ -228,7 +244,7 @@ router.get('/', function(req, res) {
     lines.on('line', recipeBuilder);
     lines.on('close', function() {
         console.log('\n\nEnd of file. Recipe better be complete by now.');
-        console.log(util.inspect(getRecipe(), { showHidden: true, depth: null }));
+        console.log(util.inspect(getRecipe(), { showHidden: false, depth: null }));
         res.send("End of recipe reached."+getRecipe());
     });
 });
