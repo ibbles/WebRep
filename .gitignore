@@ -34,6 +34,7 @@ node_modules
 
 # Private Database
 Database
+notes/Recept
 
 # Visual Studio Code project files.
 jsconfig.json
