@@ -93,22 +93,33 @@
     "degreesC": 225,
     "description": [
         {
-            "title": "Ingredienser",
-            "content": "Koka pastan. \nStarta ugnenS."
+            "title": "",
+            "content": [
+                "Koka pastan.",
+                "Starta ugnen."
+            ]
         },
         {
             "title": "Vit Sås",
-            "content": "Koka under vispning upp maizenaredning och mjölk till en tjock sås. \nRör ner osten och smaka av med salt och peppar."
+            "content": [
+                "Koka under vispning upp maizenaredning och mjölk till en tjock sås.",
+                "Rör ner osten och smaka av med salt och peppar."
+            ]
         },
         {
             "title": "Röd Sås",
-            "content": "Fräs löken utan att den tar färg i olivoljan. Tillsätt tomatkrosset och låt koka tills vätskan dunstat. \nStrimla skinkan, lägg den i lök- och tomatblandningen och låt puttra ytterligare en liten stund."
+            "content": [
+                "Fräs löken utan att den tar färg i olivoljan. Tillsätt tomatkrosset och låt koka tills vätskan dunstat.",
+                "Strimla skinkan, lägg den i lök- och tomatblandningen och låt puttra ytterligare en liten stund."
+            ]
         },
         {
             "title": "Gratäng",
-            "content": "Varva pasta med röd och vit sås i en stor gratängform. Strö lite extra ost överst. \nGratinera i 225° i ca 20 min, eller tills rätten är genomvarm."
+            "content": [
+                "Varva pasta med röd och vit sås i en stor gratängform. Strö lite extra ost överst.",
+                "Gratinera i 225° i ca 20 min, eller tills rätten är genomvarm."
+            ]
         }
-
     ],
     "tips": "Byt ut skinkan mot fetaost så har du en vegetarisk rätt."
 }
