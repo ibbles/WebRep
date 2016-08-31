@@ -46,9 +46,9 @@ function createRecipeBuilder() {
     /// This is the object that is being filled in with every call to one of the
     /// parse.+ functions.
     var recipe = {};
-    recipe.ingredients = [];
 
     var currentIngredients = undefined;
+    var currentDescription = undefined;
 
     /// Recipes follow a strict ordering of recipe elements. This tag keeps track
     /// of how far into the recipe we've come.
@@ -102,10 +102,14 @@ function createRecipeBuilder() {
 
 
     function parseIngredients(line) {
+        if (recipe.ingredients === undefined) {
+            recipe.ingredients = [];
+        }
         currentIngredients = {};
         recipe.ingredients.push(currentIngredients);
         currentIngredients.title = line.substr(1);
         currentIngredients.content = [];
+        lastParsed = "ingredients";
     }
 
     function extractName(line) {
@@ -113,7 +117,7 @@ function createRecipeBuilder() {
         var name = words[2];
         for (var i = 3; i < words.length; ++i) {
             var word = words[i];
-            if (!word[0] == ("(")) {
+            if (word[0] !== "(") {
                 name = name.concat(" ", word);
             } else {
                 return name;
@@ -128,7 +132,7 @@ function createRecipeBuilder() {
         var specifics = "";
         for (var i = 2; i < words.length; ++i) {
             var word = words[i];
-            if (word[0] == "(") {
+            if (word[0] === "(") {
                 for (var j = i; j < words.length; ++j) {
                     specifics = specifics.concat(" ", words[j]);
                 }
@@ -151,6 +155,7 @@ function createRecipeBuilder() {
         currentIngredients.content.push(ingredient);
     }
 
+
     function parseOvenTemp(line) {
         line = line.substr(1);
         var digits = "";
@@ -163,6 +168,36 @@ function createRecipeBuilder() {
         }
 
         recipe.ovenTemp = Number(digits);
+    }
+    
+    function parseDescription(line)
+    {
+        if (recipe.description === undefined) {
+            recipe.description = [];
+        }
+
+        /// \todo Create a new entry in the recipe.description array.
+        ///       Save the created entry as currentDescription.
+        currentDescription = {};
+        currentDescription.title = undefined;
+        currentDescription.content = [];
+        var title = line.substr(1);
+        if (title === "") {
+            currentDescription.title = "Gör så här";
+        } else {
+            currentDescription.title = title;
+        }
+        recipe.description.push(currentDescription);
+        lastParsed = 'description';
+    }
+
+    function parseDescriptionText(line) {
+        currentDescription.content.push(line);
+    }
+
+
+    function parseTips(line) {
+        recipe.tips = line.substr(1);
     }
 
 
@@ -205,19 +240,19 @@ function createRecipeBuilder() {
             //   !<tips>
             if (line[0] === '*') {
                 parseIngredients(line);
-            } else if (!isNaN(Number(line.split(" ")[0].replace(",", ".")))) {
+            } else if (lastParsed === "ingredients" && !isNaN(Number(line.split(" ")[0].replace(",", ".")))) {
                 // Lines started with a number so must be an ingredient, right. Right? I hope so.
                 parseIngredient(line);
             } else if (line[0] === '~') {
                 parseOvenTemp(line);
-            } else if (line[0] === '-') {
-
-            } else if (line[0] === '+') {
-
+            } else if (line[0] === '-' || line[0] === '+') {
+                parseDescription(line);
             } else if (line[0] === '!') {
-
+                parseTips(line);
+            } else if (lastParsed === "description") {
+                parseDescriptionText(line);
             } else {
-                console.log("Don't know how to parse '"+line+"'.");
+                console.log("Don't know how to parse line '", line, "'.");
             }
         }
     };
