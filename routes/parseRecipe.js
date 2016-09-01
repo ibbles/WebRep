@@ -24,6 +24,8 @@ const filesystem = require('fs');
 const readline = require('readline');
 const util = require('util');
 
+var mongo = require('mongodb').MongoClient;
+
 
 // Global name of a function defined inside createRecipeBuilder that returns the
 // last read recipe.
@@ -238,6 +240,31 @@ function createRecipeBuilder() {
 }
 
 
+
+function saveRecipeToDatabase(recipe) {
+    mongo.connect('mongodb://127.0.0.1:27017/Kokbok', function (error, db) {
+        if (error) {
+            console.log("Could not connect to database.");
+            throw error;
+        }
+
+        console.log("Öppnar kokboken.");
+
+        var collection = db.collection("recipes");
+        collection.insert(recipe, function (error, docs) {
+            if (error) {
+                console.log("Could not insert recipe into database.");
+                db.close();
+                throw error;
+            }
+            console.log("Inserted", docs[0]);
+            console.log("ID:", recipe._id);
+            db.close();
+        });
+    });
+}
+
+
 /**
  * Entry point for the page. Reads a recipe from disk and prints it to the console.
  */
@@ -257,6 +284,7 @@ router.get('/', function(req, res) {
     lines.on('line', recipeBuilder);
     lines.on('close', function() {
         console.log(util.inspect(getRecipe(), { showHidden: false, depth: null }));
+        saveRecipeToDatabase(getRecipe());
         res.send("End of recipe reached."+getRecipe());
     });
 });
