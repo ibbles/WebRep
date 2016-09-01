@@ -56,28 +56,19 @@ function createRecipeBuilder() {
     
     /// Called when the next line of the recipe is expected to be the categories line.
     function parseCategories(line) {
-        console.log('Parsing categories from "' + line + '".');
-        
-        /// \todo Proper parsing of categories here.
         recipe.categories = [];
         var categoriesList = line.split(";");
-        console.log("Have " + categoriesList.length + " categories");
         for (var i = 0; i < categoriesList.length-1; i = i+1) {
-            console.log(i + ": '" + categoriesList[i] + "'.");
             var categoriesSublist = categoriesList[i].split(":");
             recipe.categories.push(categoriesSublist);
         }
-        console.log(categoriesList);
         lastParsed = 'categories';
         return true;
     }
 
     /// Called when the next line of the recipe is expected to be the title.
     function parseTitle(line) {
-        console.log('Parsing Title from "' + line + '".');
-
         recipe.title = line;
-
         lastParsed = 'title';
         return true;
     }
@@ -86,16 +77,9 @@ function createRecipeBuilder() {
 
     /// Called when the next line of the recipe is expected to be the servings.
     function parseServings(line) {
-        console.log('Parsing servings from "' + line + '".');
-
-        /// \todo Proper parsing of servings here.
         recipe.servings = {};
         recipe.servings.quantity = Number(line.split(" ")[0]);
         recipe.servings.type = line.split(" ")[1]; 
-
-
-        console.log("Serving '" + recipe.servings.quantity + "' '" + recipe.servings.type + "'.");
-
         lastParsed = 'servings';
         return true;
     }
@@ -145,8 +129,6 @@ function createRecipeBuilder() {
     function parseIngredient(line) {
         line = line.replace(RegExp("\\s+", "g"), " ");
         var columns = line.split(RegExp("\\s"));
-        console.log("Ingredient '" + line + "' is split into:");
-        console.log(columns);
         var ingredient = {};
         ingredient.quantity = Number(line.split(" ")[0].replace(",", "."));
         ingredient.type = line.split(" ")[1];
@@ -227,9 +209,6 @@ function createRecipeBuilder() {
         else if (lastParsed === 'title') {
             parseServings(line);
         }
-        //else if (lastParsed === 'servings') {
-         //   console.log('TODO: Implement more line types');
-        //}
         else {
             // Classify the next line.
             // Is one of
@@ -265,7 +244,6 @@ function createRecipeBuilder() {
 router.get('/', function(req, res) {
     // Extract recipe name from the URL.
     const recipeName = req.query.recipeName;
-    console.log('Reading recipe "'+recipeName+'" from "'+process.cwd()+'".');
     
     // Open the recipe file as a line buffered stream.
     const fileStream = filesystem.createReadStream(recipeName);
@@ -278,7 +256,6 @@ router.get('/', function(req, res) {
     var recipeBuilder = createRecipeBuilder();
     lines.on('line', recipeBuilder);
     lines.on('close', function() {
-        console.log('\n\nEnd of file. Recipe better be complete by now.');
         console.log(util.inspect(getRecipe(), { showHidden: false, depth: null }));
         res.send("End of recipe reached."+getRecipe());
     });
