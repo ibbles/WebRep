@@ -5,9 +5,14 @@
         <link rel='stylesheet' href='/stylesheets/style.css' />
     </head>
     <body>
+        <H1>Available recipes</H1>
         <p>Enter a recipe name.</p>
         <form action='parseRecipe' method='get'>
-            <input type='text' name='recipeName' value='Recipe name'>
+            <select name='recipeName'>
+                <% files.forEach(function(file) { %>
+                <option value="<%= file %>"><%= file %></option>
+                <% }); %>
+            <select>
             <input type='submit' value='Go get'>
         </form>
     </body>
