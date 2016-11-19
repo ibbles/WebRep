@@ -6,12 +6,12 @@ const readline = require('readline');
 
 // The iconv library is used to convert between character encodings.
 // We may decide to convert all on-disk recipies from whatever encoding
-// they happen to have into UTF-8-
+// they happen to have into UTF-8.
 //const iconv = require("iconv-lite");
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-    const recipeName = "Potatismos för Plankstek.txt";
+    const recipeName = "Recipes/Potatismos för Plankstek.txt";
     //const recipeName = 'test.txt';
     console.log('Reading recipe "'+recipeName+'" from "'+process.cwd()+'".');
 
