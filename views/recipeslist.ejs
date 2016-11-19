@@ -11,7 +11,7 @@
     <h3>Recipies</h3>
     <ul>
         <% recipeslist.forEach(function(recipe) { %>
-            <li><%= recipe.tip %></li>
+            <li> <a href="viewRecipe?recipe=<%= recipe.title %>"> <%= recipe.title %> </a> </li>
         <% }); %>
     </ul>
   </body>
