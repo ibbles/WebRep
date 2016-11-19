@@ -242,13 +242,13 @@ function createRecipeBuilder() {
 
 
 function saveRecipeToDatabase(recipe) {
-    mongo.connect('mongodb://127.0.0.1:27017/Kokbok', function (error, db) {
+    mongo.connect('mongodb://127.0.0.1:27017/recipes', function (error, db) {
         if (error) {
             console.log("Could not connect to database.");
             throw error;
         }
 
-        console.log("Öppnar kokboken.");
+        console.log("Connection to database established.");
 
         var collection = db.collection("recipes");
         collection.insert(recipe, function (error, docs) {
@@ -273,7 +273,7 @@ router.get('/', function(req, res) {
     const recipeName = req.query.recipeName;
     
     // Open the recipe file as a line buffered stream.
-    const fileStream = filesystem.createReadStream(recipeName);
+    const fileStream = filesystem.createReadStream("Recipes/"+recipeName);
     const lines = readline.createInterface({
         input: fileStream,
         terminal: false
@@ -285,7 +285,7 @@ router.get('/', function(req, res) {
     lines.on('close', function() {
         console.log(util.inspect(getRecipe(), { showHidden: false, depth: null }));
         saveRecipeToDatabase(getRecipe());
-        res.send("End of recipe reached."+getRecipe());
+        res.end("Recipe read.");
     });
 });
 
