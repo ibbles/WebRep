@@ -15,7 +15,8 @@
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "kerberos": "~0.0.17",
-    "mongodb": "~2.0.33"
+    "mongodb": "~2.0.33",
+    "q": "1.0"
   },
   "devDependencies": {
     "eslint": "^2.11.0",
