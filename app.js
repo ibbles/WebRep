@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var getRecipe = require('./routes/getRecipe');
 var readRecipe = require('./routes/readRecipe');
 var parseRecipe = require('./routes/parseRecipe');
+var viewRecipe = require('./routes/viewRecipe');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/users', users);
 app.use('/getRecipe', getRecipe);
 app.use('/readRecipe', readRecipe);
 app.use('/parseRecipe', parseRecipe);
+app.use('/viewRecipe', viewRecipe);
 app.use(favicon(__dirname + '/Images/Icons/Food-Dome-32.png'));
 
 // catch 404 and forward to error handler

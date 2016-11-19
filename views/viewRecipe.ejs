@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title><%= recipe.title %></title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+    </head>
+
+    <body>
+        <h3><%= recipe.title %></h3>
+        Categories: <%= recipe.categories %> <br>
+        Servings: <%= recipe.servings.quantity %> <%= recipe.servings.type %> <br>
+        Ingredienser: <br>
+        <ul>
+        <% recipe.ingredients[0].content.forEach(function(ingredient) { %>
+            <li> <%= ingredient.quantity %> <%= ingredient.type %> <%= ingredient.name %> </li>
+        <% }); %>
+        </ul>
+
+
+        <% recipe.description[0].content.forEach(function(description) { %>
+            <%= description %> <br>
+        <% }) %>
+        
+        <br><br>
+        <b>Tips:</b> <%= recipe.tips %>
+
+    </body>
+</html>
