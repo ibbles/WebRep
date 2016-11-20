@@ -18,10 +18,13 @@ router.get('/', function(request, response) {
                     if (recipes.length == 1) {
                         const recipe = recipes[0];
                         response.render('viewRecipe', {recipe: recipe});
-                    } else if (recipes.length < 1) {
-                        response.end('Didn\'t find any recipe named "' + recipeName + '" in database.');
                     } else {
-                        response.end('Found more than one recipe named "' + recipeName + '" in database.');
+                        collection.find({title: {$regex: ".*"+recipeName+".*", $options: "i"}}).toArray()
+                        .then(function (recipes) {
+                            response.render('recipeslist', {
+                                "recipeslist": recipes
+                            });
+                        });
                     }
                 });
         })
