@@ -2,16 +2,17 @@
 <html>
 
   <head>
-    <title>Recipies</title>
+    <title>All recipies</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
 
   <body>
 
-    <h3>Recipies</h3>
+    <h2>Search recipies</h2>
+    Search in all recipes:
     <form action="viewRecipe" method="get">
       <input type="text" name="recipe">
-      <input type="submit">
+      <input type="submit" value="Search">
     </form>
     <ul>
         <% recipeslist.forEach(function(recipe) { %>
