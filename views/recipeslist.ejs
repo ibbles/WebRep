@@ -9,6 +9,10 @@
   <body>
 
     <h3>Recipies</h3>
+    <form action="viewRecipe" method="get">
+      <input type="text" name="recipe">
+      <input type="submit">
+    </form>
     <ul>
         <% recipeslist.forEach(function(recipe) { %>
             <li> <a href="viewRecipe?recipe=<%= recipe.title %>"> <%= recipe.title %> </a> </li>
