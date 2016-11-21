@@ -24,6 +24,8 @@ const filesystem = require('fs');
 const readline = require('readline');
 const util = require('util');
 
+var iconv = require('iconv-lite');
+
 var mongo = require('mongodb').MongoClient;
 
 
@@ -265,15 +267,28 @@ function saveRecipeToDatabase(recipe) {
 }
 
 
+
+function guessEncoding(path) {
+    var fileContents = filesystem.readFileSync(path);
+    const indexOfUtf8Failure = iconv.decode(fileContents, 'utf8').indexOf('�');
+    const isIsoMaybe = indexOfUtf8Failure >= 0;
+    const encoding = isIsoMaybe ? 'iso-8859-15' : "utf8";
+    console.log('Decoding using "' + encoding + '" since failure index is ' + indexOfUtf8Failure + '.');
+    return encoding;
+}
+
+
 /**
  * Entry point for the page. Reads a recipe from disk and prints it to the console.
  */
 router.get('/', function(req, res) {
     // Extract recipe name from the URL.
     const recipeName = req.query.recipeName;
+    const path = "Recipes/"+recipeName;
+    const encoding = guessEncoding(path);
     
     // Open the recipe file as a line buffered stream.
-    const fileStream = filesystem.createReadStream("Recipes/"+recipeName);
+    const fileStream = filesystem.createReadStream(path).pipe(iconv.decodeStream(encoding));
     const lines = readline.createInterface({
         input: fileStream,
         terminal: false
