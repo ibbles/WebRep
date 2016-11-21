@@ -7,15 +7,24 @@ const readline = require('readline');
 // The iconv library is used to convert between character encodings.
 // We may decide to convert all on-disk recipies from whatever encoding
 // they happen to have into UTF-8.
-//const iconv = require("iconv-lite");
+const iconv = require("iconv-lite");
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-    const recipeName = "Recipes/Potatismos för Plankstek.txt";
+    const recipeName = "Recipes/Potatismos för Plankstek_utf8.txt";
     //const recipeName = 'test.txt';
     console.log('Reading recipe "'+recipeName+'" from "'+process.cwd()+'".');
 
-    const input = filesystem.createReadStream(recipeName);
+    var fileContents = filesystem.readFileSync(recipeName);
+
+    console.log('Contents read, detecting encoding');
+
+    const indexOfUtf8Failure = iconv.decode(fileContents, 'utf8').indexOf('�');
+    const isIsoMaybe = indexOfUtf8Failure >= 0;
+    const encoding = isIsoMaybe ? 'iso-8859-14' : "utf8";
+    console.log('Decoding using "' + encoding + '" since failure index is ' + indexOfUtf8Failure + '.');
+
+    const input = filesystem.createReadStream(recipeName).pipe(iconv.decodeStream(encoding));
 
     if (input) {
         console.log('"input" is something.');
@@ -30,6 +39,7 @@ router.get('/', function(req, res) {
 
     var wholeFile = '';
     reader.on('line', function(line) {
+        // line = iconv.decode(line, 'iso-8859-14');
         console.log('Line from file: ', line);
         wholeFile += line + '<br>\n';
     });
