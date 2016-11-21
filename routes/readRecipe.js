@@ -11,17 +11,15 @@ const iconv = require("iconv-lite");
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-    const recipeName = "Recipes/Potatismos för Plankstek_utf8.txt";
+    // const recipeName = "Recipes/Potatismos för Plankstek_utf8.txt";
+    const recipeName = 'Recipes/Makaronilåda.txt';
     //const recipeName = 'test.txt';
     console.log('Reading recipe "'+recipeName+'" from "'+process.cwd()+'".');
 
     var fileContents = filesystem.readFileSync(recipeName);
-
-    console.log('Contents read, detecting encoding');
-
     const indexOfUtf8Failure = iconv.decode(fileContents, 'utf8').indexOf('�');
     const isIsoMaybe = indexOfUtf8Failure >= 0;
-    const encoding = isIsoMaybe ? 'iso-8859-14' : "utf8";
+    const encoding = isIsoMaybe ? 'iso-8859-15' : "utf8";
     console.log('Decoding using "' + encoding + '" since failure index is ' + indexOfUtf8Failure + '.');
 
     const input = filesystem.createReadStream(recipeName).pipe(iconv.decodeStream(encoding));
