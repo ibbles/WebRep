@@ -7,7 +7,7 @@ var favicon = require('serve-favicon');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var getRecipe = require('./routes/getRecipe');
+var addRecipe = require('./routes/addRecipe');
 var readRecipe = require('./routes/readRecipe');
 var parseRecipe = require('./routes/parseRecipe');
 var viewRecipe = require('./routes/viewRecipe');
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/getRecipe', getRecipe);
+app.use('/addRecipe', addRecipe);
 app.use('/readRecipe', readRecipe);
 app.use('/parseRecipe', parseRecipe);
 app.use('/viewRecipe', viewRecipe);

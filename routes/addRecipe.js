@@ -8,7 +8,7 @@ var fs = require('fs');
 router.get('/', function(request, response) {
     fs.readdir('Recipes/', function(error, files) {
         if (error) { response.end(error); }
-        response.render('getRecipe', {files: files});
+        response.render('addRecipe', {files: files});
     });
 });
 
