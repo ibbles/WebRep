@@ -1,3 +1,8 @@
+console.log("WebRep: Initialization sequence initialized.");
+
+var wrLib = require('WebRepLib');
+
+wrLib.log("Loading third-party libraries.");
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -5,6 +10,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 
+wrLib.log("Loading routes.");
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var addRecipe = require('./routes/addRecipe');
@@ -13,18 +19,21 @@ var parseRecipe = require('./routes/parseRecipe');
 var addAllRecipes = require('./routes/addAllRecipes');
 var viewRecipe = require('./routes/viewRecipe');
 
+wrLib.log("Creating application");
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+wrLib.log("Configuring application.");
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+wrLib.log("Connecting routes");
 app.use('/', routes);
 app.use('/users', users);
 app.use('/addRecipe', addRecipe);
@@ -67,3 +76,5 @@ app.use(function(err, req, res) {
 
 
 module.exports = app;
+
+wrLib.log("Application fully initialized.");
