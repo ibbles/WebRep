@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var addRecipe = require('./routes/addRecipe');
 var readRecipe = require('./routes/readRecipe');
 var parseRecipe = require('./routes/parseRecipe');
+var addAllRecipes = require('./routes/addAllRecipes');
 var viewRecipe = require('./routes/viewRecipe');
 
 var app = express();
@@ -29,6 +30,7 @@ app.use('/users', users);
 app.use('/addRecipe', addRecipe);
 app.use('/readRecipe', readRecipe);
 app.use('/parseRecipe', parseRecipe);
+app.use('/addAllRecipes', addAllRecipes);
 app.use('/viewRecipe', viewRecipe);
 app.use(favicon(__dirname + '/Images/Icons/Food-Dome-32.png'));
 
