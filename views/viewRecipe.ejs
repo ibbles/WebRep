@@ -27,6 +27,9 @@
             </ul>
         <% }); %>
 
+        <% if (recipe.ovenTemp) { %>
+            Temp: <%= recipe.ovenTemp %> °C<br>
+        <% } %>
 
         <!-- List of instruction groups. -->
         <% recipe.description.forEach(function(component) { %>
