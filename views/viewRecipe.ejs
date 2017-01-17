@@ -21,8 +21,14 @@
             </ul>
         <% }); %>
 
-        <% recipe.description[0].content.forEach(function(description) { %>
-            <%= description %> <br>
+
+        <% recipe.description.forEach(function(component) { %>
+            <h4> <%= component.title %> </h4>
+            <ul>
+            <% component.content.forEach(function(line) { %>
+                <li> <%= line %> </li>
+            <% }); %>
+            </ul>
         <% }) %>
         
         <br><br>
