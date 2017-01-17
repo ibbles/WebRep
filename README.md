@@ -8,7 +8,8 @@ A web server used to store, search, view and edit recipes using a browser.
 - Install Git
 - Checkout the repository
 - Use npm to install dependencies.
-- Start the server
+- Start the database server.
+- Start the web server.
 - Point your browser to [http://localhost:3000/](http://localhost:3000/).
 
 
