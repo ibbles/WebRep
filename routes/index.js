@@ -25,6 +25,17 @@ router.get('/thelist', function(request, response) {
                 .then(function(result) {
                     console.log("Got " + result.length + " recipes after filter.");
                     console.log("About to render page with the following recipes:");
+                    result.sort(function(a, b) {
+                        if (a.title < b.title) {
+                            return -1;
+                        }
+                        else if (a.title == b.title) {
+                            return 0;
+                        }
+                        else {
+                            return 1;
+                        }
+                    });
                     result.forEach(function (recipe) {
                         console.log(recipe);
                     });
