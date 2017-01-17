@@ -39,7 +39,7 @@
                 <!-- The replce regexp adds a newline after each '.' -->
                 <!-- Done because a lof of recipes have a lot or really long lines -->
                 <!-- with multiple sentences. -->
-                <li> <%- line.replace(/\./g, '.<br>') %> </li>
+                <li> <%- line.replace(/\./g, '.<br>') %><br> </li>
             <% }); %>
             </ul>
         <% }) %>
