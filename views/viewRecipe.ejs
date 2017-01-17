@@ -10,13 +10,16 @@
         <h3><%= recipe.title %></h3>
         Categories: <%= recipe.categories %> <br>
         Servings: <%= recipe.servings.quantity %> <%= recipe.servings.type %> <br>
-        Ingredienser: <br>
-        <ul>
-        <% recipe.ingredients[0].content.forEach(function(ingredient) { %>
-            <li> <%= ingredient.quantity %> <%= ingredient.type %> <%= ingredient.name %> </li>
-        <% }); %>
-        </ul>
+        <br>
 
+        <% recipe.ingredients.forEach(function(component) { %>
+            <h4> <%= component.title %> </h4>
+            <ul>
+            <% component.content.forEach(function(ingredient) { %>
+                <li> <%= ingredient.quantity %> <%= ingredient.type %> <%= ingredient.name %> </li>
+            <% }); %>
+            </ul>
+        <% }); %>
 
         <% recipe.description[0].content.forEach(function(description) { %>
             <%= description %> <br>
