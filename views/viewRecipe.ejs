@@ -7,11 +7,17 @@
     </head>
 
     <body>
-        <h3><%= recipe.title %></h3>
-        Categories: <%= recipe.categories %> <br>
+        <!-- Title. -->
+        <h2><%= recipe.title %></h2>
+        
+        <!-- Categories does not need to be visible in the instructions. -->
+        <!-- Categories: <%= recipe.categories %> <br> -->
+        
+        <!-- Servings. -->
         Servings: <%= recipe.servings.quantity %> <%= recipe.servings.type %> <br>
         <br>
 
+        <!-- List of ingredient groups. -->
         <% recipe.ingredients.forEach(function(component) { %>
             <h4> <%= component.title %> </h4>
             <ul>
@@ -22,16 +28,22 @@
         <% }); %>
 
 
+        <!-- List of instruction groups. -->
         <% recipe.description.forEach(function(component) { %>
             <h4> <%= component.title %> </h4>
             <ul>
             <% component.content.forEach(function(line) { %>
-                <li> <%= line %> </li>
+                <!-- The replce regexp adds a newline after each '.' -->
+                <!-- Done because a lof of recipes have a lot or really long lines -->
+                <!-- with multiple sentences. -->
+                <li> <%- line.replace(/\./g, '.<br>') %> </li>
             <% }); %>
             </ul>
         <% }) %>
         
         <br><br>
+
+        <!-- Tips. -->
         <b>Tips:</b> <%= recipe.tips %>
 
     </body>
