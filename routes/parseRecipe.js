@@ -46,7 +46,7 @@ router.get('/', function(req, res) {
         return;
     }
 
-    const path = "Recipes/"+recipeName;
+    const path = "Recipes/"+recipeName+".txt";
     const encoding = utils.guessEncoding(path);
     
     // Open the recipe file as a line buffered stream.
