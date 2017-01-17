@@ -4,7 +4,7 @@
 while test 1 -eq 1
     echo -e "\n---- BEGIN ----"
     node ./bin/www &
-    inotifywait -qe close_write **.js
+    inotifywait -qe close_write **.js **.ejs
     echo -e "---- END ----\n"
     for pid in (pgrep node)
         set cmdLine (strings -1 /proc/$pid/cmdline)
