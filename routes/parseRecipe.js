@@ -67,8 +67,13 @@ router.get('/', function(req, res) {
             return;
         }
         console.log(util.inspect(recipeBuilder.recipeGetter(), { showHidden: false, depth: null }));
-        utils.saveRecipeToDatabase(recipeBuilder.recipeGetter());
-        res.end("Recipe read.");
+        utils.saveRecipeToDatabase(recipeBuilder.recipeGetter())
+        .then(function(message) {
+            res.end('Recipe stored: ' + message);
+        })
+        .catch(function(message) {
+            res.end('Recipe not stored: ' + message);
+        });
     });
 });
 
