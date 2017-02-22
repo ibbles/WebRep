@@ -8,10 +8,10 @@ A web server used to store, search, view and edit recipes using a browser.
 - Install Git
 - Checkout the repository
 - Use npm to install dependencies.
+- Create symlink WebRep/public/RecipeImages -> WebRep/Recipes/Images/
 - Start the database server.
 - Start the web server.
 - Point your browser to [http://localhost:3000/](http://localhost:3000/).
-
 
 ### NodeJS
 Using NodeJS, a server-side JavaScript runner using Google's V8.
