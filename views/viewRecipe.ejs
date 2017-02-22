@@ -18,6 +18,8 @@
         Servings: <%= recipe.servings.quantity %> <%= recipe.servings.type %> <br>
         <br>
 
+        <div style="float: right;"><img src="RecipeImages/<%= recipe.title %>.png"></div>
+
         <!-- List of ingredient groups. -->
         <% recipe.ingredients.forEach(function(component) { %>
             <h4> <%= component.title %> </h4>
