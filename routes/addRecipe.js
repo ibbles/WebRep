@@ -18,6 +18,9 @@ router.get('/', function(request, response) {
         if (error) {
             response.end(error);
         }
+        files = files.filter(function(file) {
+            return file.endsWith(".txt");
+        });
         response.render('addRecipe', {files: files, mall: mall});
     });
 });
