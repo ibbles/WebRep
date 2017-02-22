@@ -37,6 +37,7 @@ node_modules/*
 Database
 Recipes
 notes/Recept
+public/RecipeImages
 
 
 # Visual Studio Code project files.
