@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+    <head>
+        <title>Editing <%= recipeName %></title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+    </head>
+
+    <body>
+        <h2><%= recipeName %></h2>
+
+        <form action='recipeEdited' method='get'>
+            <textarea name='content' cols='40' rows='20'><%= oldContent %></textarea>
+            <br>
+            <input type='submit' value='Save recipe'>
+        </form>
+    </body>
+</html>

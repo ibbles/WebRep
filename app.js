@@ -19,6 +19,7 @@ var parseRecipe = require('./routes/parseRecipe');
 var addAllRecipes = require('./routes/addAllRecipes');
 var addNewRecipe = require('./routes/addNewRecipe');
 var viewRecipe = require('./routes/viewRecipe');
+var editRecipe = require('./routes/editRecipe');
 
 wrLib.log("Creating application");
 var app = express();
@@ -43,6 +44,7 @@ app.use('/parseRecipe', parseRecipe);
 app.use('/addAllRecipes', addAllRecipes);
 app.use('/addNewRecipe', addNewRecipe);
 app.use('/viewRecipe', viewRecipe);
+app.use('/editRecipe', editRecipe);
 app.use(favicon(__dirname + '/Images/Icons/Food-Dome-32.png'));
 
 // Catch 404 and forward to error handler.
