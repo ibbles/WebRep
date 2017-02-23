@@ -7,7 +7,11 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <a href="thelist">Search recipe / Sök recept</a> </br>
+    <a href="thelist">List recipes / Alla recept</a> </br>
+    <form action="viewRecipe" method="get">
+      <input type="text" name="recipe">
+      <input type="submit" value="Search">
+    </form>
     </br>
     <a href="addRecipe">Add recipe to database</a> </br>
   </body>
