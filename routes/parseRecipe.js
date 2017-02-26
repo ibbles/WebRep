@@ -6,17 +6,6 @@
  */
 
 
-/*
- * Assignments:
- *  - Filter out empty lines.
- *  - Split servings into a number part and a servings type (portioner, stycke, etc) part. 
- *  - Split categories at ';' and store as array.
- *  - Detect starts of ingredients (*Ingredienser).
- *  - Part ingredients lines. Split into amount, amount type and ingredient name. Store as array.
- *    [{amount: number, type: string, name: string}, ...]
- *  - Detect start of description (-). Store rest of file as description.
- */
-
 const express = require('express');
 const router = express.Router();
 
