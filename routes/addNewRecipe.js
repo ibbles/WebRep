@@ -36,10 +36,16 @@ router.get('/', function(request, response) {
         return;
     }
 
+    /// \todo Dangerous to write the recipe to file before saving to database
+    ///       since the database may reject the new recipe.
+    ///       Dangerous to do the other way as well since the write to file
+    ///       may fail.
+    ///
+    ///      Which should we do first?
     const filename = 'Recipes/' + recipe.title + '.txt';
     fs.writeFileSync(filename, trimmedContent);
     console.log('Recipe saved to "' + filename);
-    utils.saveRecipeToDatabase(recipe)
+    utils.saveRecipeToDatabase(recipe, false)
     .then(function() {
         response.end(trimmedContent);
     })

@@ -40,7 +40,7 @@ function addRecipe(file, name, collection, response) {
             return;
         }
         console.log("Fully parsed '" + file + '". Saving to database.');
-        utils.saveRecipeToDatabase(recipeBuilder.recipeGetter());
+        utils.saveRecipeToDatabase(recipeBuilder.recipeGetter(), false);
     });
 
     return '"' + name + '" queued for insertion.';

@@ -56,7 +56,7 @@ router.get('/', function(req, res) {
             return;
         }
         console.log(util.inspect(recipeBuilder.recipeGetter(), { showHidden: false, depth: null }));
-        utils.saveRecipeToDatabase(recipeBuilder.recipeGetter())
+        utils.saveRecipeToDatabase(recipeBuilder.recipeGetter(), false)
         .then(function(message) {
             res.end('Recipe stored: ' + message);
         })
