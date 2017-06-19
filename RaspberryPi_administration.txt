@@ -1,0 +1,63 @@
+There are two active screens:
+ - Mongo
+ - Node
+
+Mongo is running
+
+LC_ALL="C.UTF-8" mongod --dbpath Database/ --journal
+
+in ~/WebRep
+
+Node is running
+
+node bin/www
+
+in ~/WebRep
+
+
+Update to the latest version by closing both Mongo and Node, do git pull and then start 
+Mongo and Node again, from their respective screens.
+
+
+
+Detailed startup instructions.
+
+# Check what's currently running.
+$ screen -list
+
+# This guide assumes that nothing is running.
+
+# Start screen for Mongo.
+$ screen
+
+# Give the Mongo session a name.
+ctrl+a ctrl+:
+
+# Type.
+sessionname Mongo
+
+# Start Mongo.
+$ cd WebRep
+$ LC_ALL="C.UTF-8" mongod --dbpath Database/ --journal
+
+# Take back the terminal, leaving Mongo in the background, by pressing.
+ctrl+a ctrl+d
+
+# We have not left the Mongo screen. Start one for Node.
+screen
+
+# Give the Node session a name.
+ctrl+a ctrl+:
+
+# Type.
+sessionname Node
+
+# Start node.
+$ cd WebRep
+$ node bin/www
+
+# Wait for the all is well message and the leave it running in the background.
+ctrl+a ctrl+d
+
+Everything is now up and we can log out from the server.
+
