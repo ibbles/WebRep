@@ -2,7 +2,7 @@
  * Given a recipe name in the query part of the URL, this page parses that recipe
  * from disk, builds a recipe JavaScript object and prints that to the console.
  * In later stages we might, for example, format the recipe as HTML and send to
- * the browser, or store it in the database. 
+ * the browser, or store it in the database.
  */
 
 
@@ -37,7 +37,7 @@ router.get('/', function(req, res) {
 
     const path = "Recipes/"+recipeName+".txt";
     const encoding = utils.guessEncoding(path);
-    
+
     // Open the recipe file as a line buffered stream.
     const fileStream = filesystem.createReadStream(path).pipe(iconv.decodeStream(encoding));
     const lines = readline.createInterface({
