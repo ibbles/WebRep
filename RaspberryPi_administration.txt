@@ -43,7 +43,7 @@ $ LC_ALL="C.UTF-8" mongod --dbpath Database/ --journal
 # Take back the terminal, leaving Mongo in the background, by pressing.
 ctrl+a ctrl+d
 
-# We have not left the Mongo screen. Start one for Node.
+# We have now left the Mongo screen. Start one for Node.
 screen
 
 # Give the Node session a name.
@@ -56,7 +56,7 @@ sessionname Node
 $ cd WebRep
 $ node bin/www
 
-# Wait for the all is well message and the leave it running in the background.
+# Wait for the application fully initialized message and then leave it running in the background.
 ctrl+a ctrl+d
 
 Everything is now up and we can log out from the server.
