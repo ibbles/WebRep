@@ -4,12 +4,14 @@ There are two active screens:
 
 Mongo is running
 
+screen -S Mongo
 LC_ALL="C.UTF-8" mongod --dbpath Database/ --journal
 
 in ~/WebRep
 
 Node is running
 
+screen -S Node
 node bin/www
 
 in ~/WebRep
