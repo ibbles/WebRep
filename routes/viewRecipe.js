@@ -20,9 +20,9 @@ router.get('/', function(request, response) {
                         const recipe = recipes[0];
                         image_base = "public/RecipeImages/" + recipe.title + "_M"
                         if (filesystem.existsSync(image_base + ".jpg")) {
-                            image_suffix = ".jpg"
+                            image_suffix = "jpg"
                         } else if (filesystem.existsSync(image_base + ".png")) {
-                            image_suffix = ".png"
+                            image_suffix = "png"
                         } else {
                             image_suffix = "" // No suffix means no image.
                         }
