@@ -18,7 +18,7 @@ router.get('/', function(request, response) {
                     console.log('Found ' + recipes.length + ' recipes named "' +recipeName + '".');
                     if (recipes.length == 1) {
                         const recipe = recipes[0];
-                        image_base = "RecipeImages/" + recipe.title + "_M"
+                        image_base = "public/RecipeImages/" + recipe.title + "_M"
                         if (filesystem.existsSync(image_base + ".jpg")) {
                             image_suffix = ".jpg"
                         } else if (filesystem.existsSync(image_base + ".png")) {
