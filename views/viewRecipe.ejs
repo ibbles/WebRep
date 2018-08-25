@@ -18,7 +18,9 @@
         Servings: <%= recipe.servings.quantity %> <%= recipe.servings.type %> <br>
         <br>
 
-        <div style="float: right;"><img src="RecipeImages/<%= recipe.title %>_M.png"></div>
+        <% if (image_suffix != "") { %>
+            <div style="float: right;"><img src="RecipeImages/<%= recipe.title %>_M.<%= image_suffix %>"></div>
+        <% } %>
 
         <!-- List of ingredient groups. -->
         <% recipe.ingredients.forEach(function(component) { %>

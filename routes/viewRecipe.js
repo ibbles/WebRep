@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 var mongo = require('mongodb');
+var filesystem = require('fs');
 
 router.get('/', function(request, response) {
     const recipeName = request.query.recipe;
@@ -17,7 +18,15 @@ router.get('/', function(request, response) {
                     console.log('Found ' + recipes.length + ' recipes named "' +recipeName + '".');
                     if (recipes.length == 1) {
                         const recipe = recipes[0];
-                        response.render('viewRecipe', {recipe: recipe});
+                        image_base = "RecipeImages/" + recipe.title + "_M"
+                        if (filesystem.existsSync(image_base + ".jpg")) {
+                            image_suffix = ".jpg"
+                        } else if (filesystem.existsSync(image_base + ".png")) {
+                            image_suffix = ".png"
+                        } else {
+                            image_suffix = "" // No suffix means no image.
+                        }
+                        response.render('viewRecipe', {recipe: recipe, image_suffix: image_suffix});
                     } else {
                         collection.find({title: {$regex: ".*"+recipeName+".*", $options: "i"}}).toArray()
                         .then(function (recipes) {
