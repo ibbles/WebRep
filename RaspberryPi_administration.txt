@@ -17,6 +17,12 @@ node bin/www
 in ~/WebRep
 
 
+These are started by the system startup script /etc/rc.local
+Have added the followign two lines:
+
+su - pi -c "screen -d -m -S Mongo /home/pi/WebRep/start_mongo.bash"
+su - pi -c "screen -d -m -S Node /home/pi/WebRep/start_node.bash"
+
 Update to the latest version by closing both Mongo and Node, do git pull and then start 
 Mongo and Node again, from their respective screens.
 
