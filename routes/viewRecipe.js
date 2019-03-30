@@ -21,6 +21,8 @@ router.get('/', function(request, response) {
                         image_base = "public/RecipeImages/" + recipe.title + "_M"
                         if (filesystem.existsSync(image_base + ".jpg")) {
                             image_suffix = "jpg"
+                        } else if (filesystem.existsSync(image_base + ".jpeg")) {
+                            image_suffix = "jpeg"
                         } else if (filesystem.existsSync(image_base + ".png")) {
                             image_suffix = "png"
                         } else {
