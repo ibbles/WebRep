@@ -27,6 +27,9 @@ build/Release
 node_modules/*
 !node_modules/utils
 
+WebRep/node_modules
+!WebRep/node_modules/WebRepLib
+
 # Optional npm cache directory
 .npm
 

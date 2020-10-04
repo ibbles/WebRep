@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <a href="listRecipes">List recipes / Alla recept</a> </br>
+    <form action="viewRecipe" method="get">
+      <input type="text" name="recipe">
+      <input type="submit" value="Search">
+    </form>
+    </br>
+    <a href="addRecipe">Add recipe to database</a> </br>
+    <h3>My favorites / Favoriter </h3>
+    <a href="viewRecipe?recipe=Chokladbollar">Chokladbollar</a><br>
+    <a href="viewRecipe?recipe=Bärkräm">Bärkräm</a><br>
+    <a href="viewRecipe?recipe=Gnocchi med Ratatouille och Merguez">Gnocchi med Ratatouille och Merguez</a><br>
+  </body>
+</html>
