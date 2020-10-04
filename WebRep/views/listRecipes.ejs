@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+
+  <head>
+    <title>Recipes by category</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+    <% for (var category in categories) { %>
+        <% if (categories.hasOwnProperty(category)) { %>
+            <h2> <%= categories[category].category %> </h2>
+            <% var recipes = categories[category].recipes; %>
+            <ul>
+            <% for (var title in recipes) { %>
+                <li> <a href="viewRecipe?recipe=<%= recipes[title] %>"> <%= recipes[title] %> </a> </li>
+            <% } %>
+            </ul>
+        <% } %>
+    <% } %>
+  </body>
+
+</html>

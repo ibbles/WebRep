@@ -23,6 +23,19 @@ Install NodeJS from
 
 > https://nodejs.org/en/download/
 
+or using the systems package manager. On Ubuntu:
+```
+sudo apt install nodejs
+```
+
+```
+sudo apt install npm
+```
+
+```
+sudo apt install node-express-generator
+```
+
 Test that it works:
 ```
 $ node
@@ -39,9 +52,19 @@ Install MongoDB from
 
 > https://www.mongodb.com/download-center?jmp=nav#community
 
+On some Linux distributions it is possible to install MongoDB using it's package manager.
+On Ubuntu: `sudo apt install mongodb`.
+It may start a MongoDB server automatically, which we don't want. Find a way to disable that.
+
 - Create folder for temporary database.
 - Go to MongoDB installation folder in cmd prompt
 - Use cmd prompt to run `bin/mongod --dbpath <temporary database path>`
+- Or `mongod --dbpath <path to database directory>` if using a system installed MongoDB.
+
+Next we create the recipe database and collection.
+- `mongo --shell`
+- `use recipes`
+- `db.createCollection("recipes")`
 
 ### Git
 
@@ -70,6 +93,11 @@ Dependencies:
 - NodeJS
 - MongoDB
 
+
+Create the project structure with
+```
+npx express-generator --view=ejs WebRep
+```
 
 ### http
 Using NodeJS module http for network management.
