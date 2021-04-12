@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <!-- WRAPPER -->
+    <div id="wrapper">
+
+      <!-- USER INFO-->
+      <div id="userInfo">
+        <h2>User Info</h2>
+        <p>
+          <strong>Name:</strong> <span id='userInfoName'></span><br/>
+          <strong>Age:</strong> <span id='userInfoAge'></span><br/>
+          <strong>Gender:</strong> <span id='userInfoGender'></span><br/>
+          <strong>Location:</strong> <span id='userInfoLocation'></span>
+        </p>
+      </div>
+      <!-- /USER INFO-->
+
+      <!-- USER LIST -->
+      <h2>User List</h2>
+      <div id="userList">
+        <table>
+          <thead>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Delete?</th>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <!-- /USER LIST -->
+
+    </div>
+    <!-- /WRAPPER -->
+</body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/javascripts/global.js"></script>
+</html>
