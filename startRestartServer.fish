@@ -2,16 +2,18 @@
 
 
 while test 1 -eq 1
+    clear
     echo -e "\n---- BEGIN ----"
-    node ./bin/www &
+    npm start &
     inotifywait -qe close_write **.js **.ejs
     echo -e "---- END ----\n"
     for pid in (pgrep node)
         set cmdLine (strings -1 /proc/$pid/cmdline)
         if test "$cmdLine" = "node ./bin/www"
-            kill -SIGKILL $pid
+            kill $pid
         end
     end
+    sleep 1
 end
 
 
@@ -41,6 +43,6 @@ end
 #    echo "Got restart signal."
 #end
 #
-#echo "Infinite while-loop terminated." 
+#echo "Infinite while-loop terminated."
 #
 #
