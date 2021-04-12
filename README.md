@@ -1,65 +1,158 @@
 # WebRep
+
 A web server used to store, search, view and edit recipes using a browser.
 
 
-## User Initial Setup
-- Install NodeJS
-- Install MongoDB
-- Install Git
-- Checkout the repository
+## Tools
+
+WebRep uses NodeJS, a server-side JavaScript runner using Google's V8.
+- [Node.js Tutorial for beginners](https://www.youtube.com/watch?v=-u-j7uqU7sI) by thenewboston.
+- [Node.js Tutorial in Visual Studio Code](https://code.visualstudio.com/docs/nodejs/nodejs-tutorial).
+
+MongoDB is used for persistent storage.  
+- [NodeJS MongoDB Tutorial](https://www.youtube.com/watch?v=Do_Hsb_Hs3c) by Derek Banas.
+
+The NodeJS module Express is used for project generation and application structure.
+
+## Sever Setup
+
+Steps:
+- Install NodeJS.
+- Install NPM.
+- Install MongoDB.
+- Install Git.
+- Checkout the repository.
 - Use npm to install dependencies.
-- Create symlink WebRep/public/RecipeImages -> WebRep/Recipes/Images/
 - Start the database server.
 - Start the web server.
 - Point your browser to [http://localhost:3000/](http://localhost:3000/).
 
-### NodeJS
-Using NodeJS, a server-side JavaScript runner using Google's V8.
-See "Node.js Tutorial for beginners" by thenewboston on YouTube.
 
-> https://www.youtube.com/watch?v=-u-j7uqU7sI
+### Ubuntu
 
-Install NodeJS from
-
-> https://nodejs.org/en/download/
-
-Test that it works:
 ```
-$ node
-> console.log("Print this.")
-Print this.
-undefined
-> process.exit(0);
+$ sudo apt install nodejs npm
+$ sudo apt install mongodb
 ```
 
+### Windows
 
-### MongoDB
+[Getting started with NodeJS and ExpressJS in Windows 10](https://medium.com/@zibon/getting-started-with-nodejs-and-expressjs-2018-51689dae024b)  
+[How to install NodeJS and NPM on Windows](https://phoenixnap.com/kb/install-node-js-npm-on-windows)
 
-Install MongoDB from
-
-> https://www.mongodb.com/download-center?jmp=nav#community
-
-- Create folder for temporary database.
-- Go to MongoDB installation folder in cmd prompt
-- Use cmd prompt to run `bin/mongod --dbpath <temporary database path>`
-
-### Git
-
-Install Git from
-
-> https://git-scm.com/downloads
-> Use Git to clone existing repository from:
->   https://github.com/ibbles/WebRep.git
+Install NodeJS from [nodejs.org](https://nodejs.org/en/download/).  
+Install MongoDB from [mongodb.com](https://www.mongodb.com/download-center?jmp=nav#community).  
+Install Git from [git-scm.com](https://git-scm.com/downloads).
 
 
-### CMD Prompt
 
-- Go to repository folder in cmd prompt.
-- Use cmd prompt to run `npm install` to download dependencies.
-- Use cmd prompt to run `node ./bin/www` to start the server.
+### Install and run WebRep
+
+Start MongoDB:
+```
+$ LC_ALL="C.UTF-8" mongod --dbpath <PATH_TO_DATABASE_DIRECTORY> --journal
+```
+
+Use Git to clone the WebRep repository to the desired installation directory:
+```
+$ git clone https://github.com/ibbles/WebRep.git
+```
+
+Install the NPM dependencies used by WebRep. This is only needed once.
+```
+$ cd <WEBREP_PATH>
+$ npm install
+```
+
+Start the web server.
+```
+$ cd <WEBREP_PATH>
+$ node ./bin/www
+```
 
 
-## Project dependencies and initial setup.
+## Developer Setup
+
+
+Steps:
+- Install NodeJS.
+- Install NPM.
+- Install MongoDB.
+- Install Git.
+- Checkout the repository.
+- Use npm to install dependencies.
+- Start the database server.
+- Start the web server.
+- Point your browser to [http://localhost:3000/](http://localhost:3000/).
+
+
+### Ubuntu
+
+Install NodeJS and NPM:
+```
+$ sudo apt install nodejs npm
+```
+
+Change to the projects directory in which the WebRep directory should be
+created and install Express Generator:
+```
+$ cd <projects directory>
+$ sudo npm install -g express-generator
+```
+
+Generate the WebRep project:
+```
+$ express --view="ejs" WebRep
+$ cd WebRep
+```
+
+Install NPM dependencies:
+```
+$ npm install --save monk@^7.1.2 mongodb@^3.5.4
+$ npm install
+```
+
+Test that the NodeJS + Express installation is working by running
+```
+$ npm start
+```
+and open `localhost:3000` in a web browser.
+
+
+Install MongoDB:
+```
+$ sudo apt install mongodb
+```
+
+We can either use the default MongoDB instance created automatically, or close
+that and launch a new one with out own database path.
+
+If you want to disable the default MongoDB instance, do the following:
+```
+$ sudo systemctl stop mongodb
+$ sudo systemctl disable mongodb
+($ sudo update-rc.d mongodb disable) Not so sure about this one, the systemctl stuff should be enough.
+```
+
+Open a new terminal and start the MongoDB server with
+```
+LC_ALL="C.UTF-8" mongod --dbpath <PATH_TO_DATABASE_DIRECTORY> --journal
+```
+
+
+### Windows
+
+[Getting started with NodeJS and ExpressJS in Windows 10](https://medium.com/@zibon/getting-started-with-nodejs-and-expressjs-2018-51689dae024b)  
+[How to install NodeJS and NPM on Windows](https://phoenixnap.com/kb/install-node-js-npm-on-windows)
+
+Install NodeJS from [nodejs.org](https://nodejs.org/en/download/).  
+Install MongoDB from [mongodb.com](https://www.mongodb.com/download-center?jmp=nav#community).  
+Install Git from [git-scm.com](https://git-scm.com/downloads).
+
+
+
+
+### Initial setup
 
 This section lists the external libraries that WebRep depends on and the steps that was used to initialize it.
 
@@ -83,21 +176,8 @@ $ npm install connect
 ```
 
 
-### Express
-Using NodeJS module Express for project generation application structure.
-```
-$ npm install -g express-generator
-$ cd <project folder>
-$ express <project name> --ejs
-$ cd <project name>
-```
-
 
 ### MongoDB
-Using MongoDB for storage.
-See "NodeJS MongoDB Tutorial" by Derek Banas.
-
-> https://www.youtube.com/watch?v=Do_Hsb_Hs3c
 
 Edit package.json created by express.
 In the "dependencies" scope, change
@@ -118,3 +198,23 @@ Download dependencies and created project structure using.
 ```
 $ npm install
 ```
+
+
+## Troubleshooting
+
+### Test the environment
+
+Test NodeJS:
+```
+$ node
+> console.log("Hello, World!")
+Hello, World!
+undefined
+> process.exit(0);
+```
+
+Test MongoDB:
+- Create folder for temporary database.
+- Go to MongoDB installation folder in cmd prompt
+- Use cmd prompt to run `bin/mongod --dbpath <temporary database path>`
+
