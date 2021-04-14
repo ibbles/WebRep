@@ -10,7 +10,7 @@ while test 1 -eq 1
     for pid in (pgrep node)
         set cmdLine (strings -1 /proc/$pid/cmdline)
         if test "$cmdLine" = "node ./bin/www"
-            kill $pid
+            kill -SIGINT $pid
         end
     end
     sleep 1
