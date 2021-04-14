@@ -7,8 +7,10 @@ $(document).ready(function() {
   populateTable();
 
   $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
-  $('#btnAddUser').on('click', addUser);
   $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+  $('#userList table tbody').on('click', 'td a.linkedituser', editUser);
+  $('#btnAddUser').on('click', addUser);
+  $('#btnSaveUser').on('click', saveUser);
 });
 
 // Functions =============================================================
@@ -29,6 +31,7 @@ function populateTable() {
       tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '">' + this.username + '</a></td>';
       tableContent += '<td>' + this.email + '</td>';
       tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
+      tableContent += '<td><a href="#" class="linkedituser" rel="' + this.username + '">edit</a></td>';
       tableContent += '</tr>';
     });
 
@@ -48,6 +51,12 @@ function showUserInfo(event) {
   $('#userInfoGender').text(thisUserObject.gender);
   $('#userInfoLocation').text(thisUserObject.location);
 };
+
+function getUserObject(thisUserName) {
+  // var thisUserName = $(this).attr('rel');
+  var index = userListData.map(function(arrayItem) { return arrayItem.username;}).indexOf(thisUserName);
+  return userListData[index];
+}
 
 function addUser(event) {
   event.preventDefault();
@@ -116,4 +125,23 @@ function deleteUser(event) {
   {
     return false;
   }
+}
+
+
+function editUser(event) {
+  event.preventDefault();
+  // alert("Editing a user.");
+  var thisUserName = $(this).attr('rel');
+  var thisUserObject = getUserObject(thisUserName);
+  $('#addUser fieldset input#inputUserName').val(thisUserObject.username);
+  $('#addUser fieldset input#inputUserEmail').val(thisUserObject.email);
+  $('#addUser fieldset input#inputUserFullname').val(thisUserObject.fullname);
+  $('#addUser fieldset input#inputUserAge').val(thisUserObject.age);
+  $('#addUser fieldset input#inputUserLocation').val(thisUserObject.location);
+  $('#addUser fieldset input#inputUserGender').val(thisUserObject.gender);
+}
+
+function saveUser(event) {
+  event.preventDefault();
+  alert("Saving a user");
 }
