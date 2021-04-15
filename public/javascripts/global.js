@@ -1,6 +1,8 @@
 // Userlist data array for filling in info box
 var userListData = [];
 
+var editUserId = undefined;
+
 // DOM Ready =============================================================
 $(document).ready(function() {
   // Populate the user table on initial page load
@@ -22,16 +24,16 @@ function populateTable() {
   var tableContent = '';
 
   // jQuery AJAX call for JSON
-  $.getJSON( '/users/userlist', function( data ) {
+  $.getJSON( '/users/userlist', function(data) {
     userListData = data;
 
     // For each item in our JSON, add a table row and cells to the content string
     $.each(data, function(){
       tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '">' + this.username + '</a></td>';
+      tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '">' + this.username + '</a></td>';
       tableContent += '<td>' + this.email + '</td>';
       tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
-      tableContent += '<td><a href="#" class="linkedituser" rel="' + this.username + '">edit</a></td>';
+      tableContent += '<td><a href="#" class="linkedituser" rel="' + this._id + '">edit</a></td>';
       tableContent += '</tr>';
     });
 
@@ -42,8 +44,8 @@ function populateTable() {
 
 
 function getUserObject(self) {
-  var thisUserName = $(self).attr('rel');
-  var index = userListData.map(function(arrayItem) { return arrayItem.username;}).indexOf(thisUserName);
+  var userId = $(self).attr('rel');
+  var index = userListData.map(function(arrayItem) { return arrayItem._id;}).indexOf(userId);
   return userListData[index];
 }
 
@@ -59,9 +61,7 @@ function showUserInfo(event) {
 };
 
 
-function addUser(event) {
-  event.preventDefault();
-
+function verifyInputFields() {
   var haveChecked = false;
   var errorCount = 0;
   $('#addUser input').each(function(index, val) {
@@ -73,37 +73,54 @@ function addUser(event) {
 
   if (!haveChecked) {
     alert('Error: Did not do any verification.');
+    return false;
   }
 
-  if (errorCount === 0) {
-    var newUser = {
-      'username': $('#addUser fieldset input#inputUserName').val(),
-      'email': $('#addUser fieldset input#inputUserEmail').val(),
-      'fullname': $('#addUser fieldset input#inputUserFullname').val(),
-      'age': $('#addUser fieldset input#inputUserAge').val(),
-      'location': $('#addUser fieldset input#inputUserLocation').val(),
-      'gender': $('#addUser fieldset input#inputUserGender').val()
-    };
-
-    $.ajax({
-      type: 'POST',
-      data: newUser,
-      url: '/users/adduser',
-      dataType: 'JSON'
-    }).done(function(response) {
-      if (response.msg === '') {
-        $('#addUser fieldset input').val('');
-        populateTable();
-      }
-      else {
-        alert('Error: ' + response.msg);
-      }
-    });
-  }
-  else {
+  if (errorCount > 0) {
     alert('Please fill in all fields.');
     return false;
   }
+
+  return true;
+}
+
+
+function getUserFromInputFields()
+{
+  return {
+    'username': $('#addUser fieldset input#inputUserName').val(),
+    'email': $('#addUser fieldset input#inputUserEmail').val(),
+    'fullname': $('#addUser fieldset input#inputUserFullname').val(),
+    'age': $('#addUser fieldset input#inputUserAge').val(),
+    'location': $('#addUser fieldset input#inputUserLocation').val(),
+    'gender': $('#addUser fieldset input#inputUserGender').val()
+  };
+}
+
+
+function addUser(event) {
+  event.preventDefault();
+
+  if (!verifyInputFields()) {
+    return;
+  }
+
+  var newUser = getUserFromInputFields();
+
+  $.ajax({
+    type: 'POST',
+    data: newUser,
+    url: '/users/adduser',
+    dataType: 'JSON'
+  }).done(function(response) {
+    if (response.msg === '') {
+      $('#addUser fieldset input').val('');
+      populateTable();
+    }
+    else {
+      alert('Error: ' + response.msg);
+    }
+  });
 }
 
 
@@ -133,6 +150,7 @@ function editUser(event) {
   event.preventDefault();
 
   var thisUserObject = getUserObject(this);
+  editUserId = thisUserObject._id;
   $('#addUser fieldset input#inputUserName').val(thisUserObject.username);
   $('#addUser fieldset input#inputUserEmail').val(thisUserObject.email);
   $('#addUser fieldset input#inputUserFullname').val(thisUserObject.fullname);
@@ -144,6 +162,31 @@ function editUser(event) {
 
 function saveUser(event) {
   event.preventDefault();
-  alert("Saving a user");
 
+  if (editUserId === undefined) {
+    alert("No edit in progress.");
+    return;
+  }
+
+  if (!verifyInputFields()) {
+    return;
+  }
+
+  var editedUser = getUserFromInputFields();
+  $.ajax({
+    type: 'PUT',
+    data: editedUser,
+    url: '/users/edituser/' + editUserId,
+    dataType: 'JSON'
+  }).done(function(response) {
+    if (response.msg === '') {
+      $('#addUser fieldset input').val('');
+      populateTable();
+    }
+    else {
+      alert("Error: " + response.msg);
+    }
+  });
+
+  editUserId = undefined;
 }
