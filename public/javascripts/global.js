@@ -40,23 +40,24 @@ function populateTable() {
   });
 };
 
+
+function getUserObject(self) {
+  var thisUserName = $(self).attr('rel');
+  var index = userListData.map(function(arrayItem) { return arrayItem.username;}).indexOf(thisUserName);
+  return userListData[index];
+}
+
+
 function showUserInfo(event) {
   event.preventDefault();
 
-  var thisUserName = $(this).attr('rel');
-  var index = userListData.map(function(arrayItem) {return arrayItem.username;}).indexOf(thisUserName);
-  var thisUserObject = userListData[index];
+  var thisUserObject = getUserObject(this);
   $('#userInfoName').text(thisUserObject.fullname);
   $('#userInfoAge').text(thisUserObject.age);
   $('#userInfoGender').text(thisUserObject.gender);
   $('#userInfoLocation').text(thisUserObject.location);
 };
 
-function getUserObject(thisUserName) {
-  // var thisUserName = $(this).attr('rel');
-  var index = userListData.map(function(arrayItem) { return arrayItem.username;}).indexOf(thisUserName);
-  return userListData[index];
-}
 
 function addUser(event) {
   event.preventDefault();
@@ -130,9 +131,8 @@ function deleteUser(event) {
 
 function editUser(event) {
   event.preventDefault();
-  // alert("Editing a user.");
-  var thisUserName = $(this).attr('rel');
-  var thisUserObject = getUserObject(thisUserName);
+
+  var thisUserObject = getUserObject(this);
   $('#addUser fieldset input#inputUserName').val(thisUserObject.username);
   $('#addUser fieldset input#inputUserEmail').val(thisUserObject.email);
   $('#addUser fieldset input#inputUserFullname').val(thisUserObject.fullname);
@@ -141,7 +141,9 @@ function editUser(event) {
   $('#addUser fieldset input#inputUserGender').val(thisUserObject.gender);
 }
 
+
 function saveUser(event) {
   event.preventDefault();
   alert("Saving a user");
+
 }
