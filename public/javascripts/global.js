@@ -1,18 +1,18 @@
-// Userlist data array for filling in info box
-var userListData = [];
+// Recipelist data array for filling in info box
+var recipeListData = [];
 
-var editUserId = undefined;
+var editRecipeId = undefined;
 
 // DOM Ready =============================================================
 $(document).ready(function() {
-  // Populate the user table on initial page load
+  // Populate the recipe table on initial page load
   populateTable();
 
-  $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
-  $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
-  $('#userList table tbody').on('click', 'td a.linkedituser', editUser);
-  $('#btnAddUser').on('click', addUser);
-  $('#btnSaveUser').on('click', saveUser);
+  $('#recipeList table tbody').on('click', 'td a.linkshowrecipe', showRecipeInfo);
+  $('#recipeList table tbody').on('click', 'td a.linkdeleterecipe', deleteRecipe);
+  $('#recipeList table tbody').on('click', 'td a.linkeditrecipe', editRecipe);
+  $('#btnAddRecipe').on('click', addRecipe);
+  $('#btnSaveRecipe').on('click', saveRecipe);
 });
 
 // Functions =============================================================
@@ -24,47 +24,56 @@ function populateTable() {
   var tableContent = '';
 
   // jQuery AJAX call for JSON
-  $.getJSON( '/users/userlist', function(data) {
-    userListData = data;
+  $.getJSON( '/recipes/recipelist', function(data) {
+    recipeListData = data;
 
     // For each item in our JSON, add a table row and cells to the content string
     $.each(data, function(){
       tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '">' + this.username + '</a></td>';
-      tableContent += '<td>' + this.email + '</td>';
-      tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
-      tableContent += '<td><a href="#" class="linkedituser" rel="' + this._id + '">edit</a></td>';
+      tableContent += '<td><a href="#" class="linkshowrecipe" rel="' + this._id + '">' + this.recipename + '</a></td>';
+      tableContent += '<td><a href="#" class="linkdeleterecipe" rel="' + this._id + '">delete</a></td>';
+      tableContent += '<td><a href="#" class="linkeditrecipe" rel="' + this._id + '">edit</a></td>';
       tableContent += '</tr>';
     });
 
     // Inject the whole content string into our existing HTML table
-    $('#userList table tbody').html(tableContent);
+    $('#recipeList table tbody').html(tableContent);
   });
 };
 
 
-function getUserObject(self) {
-  var userId = $(self).attr('rel');
-  var index = userListData.map(function(arrayItem) { return arrayItem._id;}).indexOf(userId);
-  return userListData[index];
+function getRecipeObject(self) {
+  var recipeId = $(self).attr('rel');
+  var index = recipeListData.map(function(arrayItem) { return arrayItem._id;}).indexOf(recipeId);
+  return recipeListData[index];
 }
 
 
-function showUserInfo(event) {
+function showRecipeInfo(event) {
   event.preventDefault();
 
-  var thisUserObject = getUserObject(this);
-  $('#userInfoName').text(thisUserObject.fullname);
-  $('#userInfoAge').text(thisUserObject.age);
-  $('#userInfoGender').text(thisUserObject.gender);
-  $('#userInfoLocation').text(thisUserObject.location);
+  var thisRecipeObject = getRecipeObject(this);
+  $('#recipeInfoName').text(thisRecipeObject.recipename);
+  var ingredientsTable = ''
+  for (var i in thisRecipeObject.ingredients) {
+    var ingredient = thisRecipeObject.ingredients[i]
+    ingredientsTable += '<tr>';
+    ingredientsTable += '<td>' + ingredient.amount + '</td>';
+    ingredientsTable += '<td>' + ingredient.unit + '</td>';
+    ingredientsTable += '<td>' + ingredient.name + '</td>';
+    if (ingredient.specification !== undefined && ingredient.specification !== '') {
+      ingredientsTable += '<td>' + ingredient.specification + '</td>';
+    }
+    ingredientsTable += "</tr>";
+  }
+  $('#recipeInfo table tbody').html(ingredientsTable);
 };
 
 
 function verifyInputFields() {
   var haveChecked = false;
   var errorCount = 0;
-  $('#addUser input').each(function(index, val) {
+  $('#addRecipe input').each(function(index, val) {
     haveChecked = true;
     if ($(this).val() === '') {
       errorCount++;
@@ -85,36 +94,35 @@ function verifyInputFields() {
 }
 
 
-function getUserFromInputFields()
+function getRecipeFromInputFields()
 {
   return {
-    'username': $('#addUser fieldset input#inputUserName').val(),
-    'email': $('#addUser fieldset input#inputUserEmail').val(),
-    'fullname': $('#addUser fieldset input#inputUserFullname').val(),
-    'age': $('#addUser fieldset input#inputUserAge').val(),
-    'location': $('#addUser fieldset input#inputUserLocation').val(),
-    'gender': $('#addUser fieldset input#inputUserGender').val()
+    'recipename': $('#addRecipe fieldset input#inputRecipeName').val(),
+    'amount': $('#addRecipe fieldset input#inputRecipeAmount').val(),
+    'unit': $('#addRecipe fieldset input#inputRecipeUnit').val(),
+    'ingredient': $('#addRecipe fieldset input#inputRecipeIngredient').val(),
+    'specification': $('#addRecipe fieldset input#inputRecipeSpecification').val()
   };
 }
 
 
-function addUser(event) {
+function addRecipe(event) {
   event.preventDefault();
 
   if (!verifyInputFields()) {
     return;
   }
 
-  var newUser = getUserFromInputFields();
+  var newRecipe = getRecipeFromInputFields();
 
   $.ajax({
     type: 'POST',
-    data: newUser,
-    url: '/users/adduser',
+    data: newRecipe,
+    url: '/recipes/addrecipe',
     dataType: 'JSON'
   }).done(function(response) {
     if (response.msg === '') {
-      $('#addUser fieldset input').val('');
+      $('#addRecipe fieldset input').val('');
       populateTable();
     }
     else {
@@ -124,14 +132,14 @@ function addUser(event) {
 }
 
 
-function deleteUser(event) {
+function deleteRecipe(event) {
   event.preventDefault();
 
   var confirmation = confirm('Are your sure?');
   if (confirmation === true) {
     $.ajax({
       type: 'DELETE',
-      url: '/users/deleteuser/' + $(this).attr('rel')
+      url: '/recipes/deleterecipe/' + $(this).attr('rel')
     }).done(function(response) {
       if (response.msg !== '') {
         alert("Error: " + response.msg);
@@ -146,24 +154,35 @@ function deleteUser(event) {
 }
 
 
-function editUser(event) {
+function editRecipe(event) {
   event.preventDefault();
 
-  var thisUserObject = getUserObject(this);
-  editUserId = thisUserObject._id;
-  $('#addUser fieldset input#inputUserName').val(thisUserObject.username);
-  $('#addUser fieldset input#inputUserEmail').val(thisUserObject.email);
-  $('#addUser fieldset input#inputUserFullname').val(thisUserObject.fullname);
-  $('#addUser fieldset input#inputUserAge').val(thisUserObject.age);
-  $('#addUser fieldset input#inputUserLocation').val(thisUserObject.location);
-  $('#addUser fieldset input#inputUserGender').val(thisUserObject.gender);
+  var thisRecipeObject = getRecipeObject(this);
+  editRecipeId = thisRecipeObject._id;
+
+  $('#addRecipe fieldset input#inputRecipeName').val(thisRecipeObject.recipename);
+
+  var ingredientsTable = ''
+  $.each(thisRecipeObject.ingredients, function() {
+    ingredientsTable += '<input id="inputRecipeAmount" type="text" size="5" placeholder="Amount"/>';
+    ingredientsTable += '<input id="inputRecipeUnit" type="text" size="5" placeholder="Unit"/>';
+    ingredientsTable += '<input id="inputRecipeIngredient" type="text" size="20" placeholder="Ingredient"/>';
+    ingredientsTable += '<input id="inputRecipeSpecification" type="text" size="15" placeholder="Specification"/><br/>';
+  });
+
+  $('#addRecipe fieldset p#ingredientList').html(ingredietsTable);
+
+  // $('#addRecipe fieldset input#inputRecipeAmount').val(thisRecipeObject.amount);
+  // $('#addRecipe fieldset input#inputRecipeUnit').val(thisRecipeObject.unit);
+  // $('#addRecipe fieldset input#inputRecipeIngredient').val(thisRecipeObject.ingredient);
+  // $('#addRecipe fieldset input#inputRecipeSpecification').val(thisRecipeObject.specification);
 }
 
 
-function saveUser(event) {
+function saveRecipe(event) {
   event.preventDefault();
 
-  if (editUserId === undefined) {
+  if (editRecipeId === undefined) {
     alert("No edit in progress.");
     return;
   }
@@ -172,15 +191,15 @@ function saveUser(event) {
     return;
   }
 
-  var editedUser = getUserFromInputFields();
+  var editedRecipe = getRecipeFromInputFields();
   $.ajax({
     type: 'PUT',
-    data: editedUser,
-    url: '/users/edituser/' + editUserId,
+    data: editedRecipe,
+    url: '/recipes/editrecipe/' + editRecipeId,
     dataType: 'JSON'
   }).done(function(response) {
     if (response.msg === '') {
-      $('#addUser fieldset input').val('');
+      $('#addRecipe fieldset input').val('');
       populateTable();
     }
     else {
@@ -188,5 +207,5 @@ function saveUser(event) {
     }
   });
 
-  editUserId = undefined;
+  editRecipeId = undefined;
 }

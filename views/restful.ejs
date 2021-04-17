@@ -10,49 +10,61 @@
     <!-- WRAPPER -->
     <div id="wrapper">
 
-      <!-- USER INFO-->
-      <div id="userInfo">
-        <h2>User Info</h2>
+      <!-- RECIPE INFO-->
+      <div id="recipeInfo">
+        <h2>Recipe Info</h2>
         <p>
-          <strong>Name:</strong> <span id='userInfoName'></span><br/>
-          <strong>Age:</strong> <span id='userInfoAge'></span><br/>
-          <strong>Gender:</strong> <span id='userInfoGender'></span><br/>
-          <strong>Location:</strong> <span id='userInfoLocation'></span>
+          <strong>Name:</strong> <span id='recipeInfoName'></span><br/>
+          <strong>Ingredients:</strong><br/>
+          <table>
+            <thead>
+              <th>Amount</th>
+              <th>Unit</th>
+              <th>Ingredient</th>
+              <th>Specification</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </p>
       </div>
-      <!-- /USER INFO-->
+      <!-- /RECIPE INFO-->
 
-      <!-- USER LIST -->
-      <h2>User List</h2>
-      <div id="userList">
+      <!-- RECIPE LIST -->
+      <h2>Recipe List</h2>
+      <div id="recipeList">
         <table>
           <thead>
-            <th>UserName</th>
-            <th>Email</th>
-            <th>Delete?</th>
+            <th>Recipe</th>
+            <th>Delete</th>
             <th>Edit</th>
           </thead>
           <tbody>
           </tbody>
         </table>
       </div>
-      <!-- /USER LIST -->
+      <!-- /RECIPE LIST -->
 
-      <!-- ADD USER -->
-      <h2>Add User</h2>
-      <div id="addUser">
+      <!-- ADD RECIPE -->
+      <h2>Add Recipe</h2>
+      <div id="addRecipe">
         <fieldset>
-          <input id="inputUserName" type="text" placeholder="Username"/>
-          <input id="inputUserEmail" type="text" placeholder="Email"/><br/>
-          <input id="inputUserFullname" type="text" placeholder="Full Name"/>
-          <input id="inputUserAge" type="text" placeholder="Age"/><br/>
-          <input id="inputUserLocation" type="text" placeholder="Location"/>
-          <input id="inputUserGender" type="text" placeholder="Gender"/><br/>
-          <button id="btnAddUser">Add User</button>
-          <button id="btnSaveUser">Save User</button>
+          <input id="inputRecipeName" type="text" size="20" placeholder="Name"/><br/>
+          <p id="ingredientList">
+            <!-- <input id="inputRecipeAmount" type="text" size="5" placeholder="Amount" value="SomeText"/>
+            <input id="inputRecipeUnit" type="text" size="5" placeholder="Unit"/>
+            <input id="inputRecipeIngredient" type="text" size="20" placeholder="Ingredient"/>
+            <input id="inputRecipeSpecification" type="text" size="15" placeholder="Specification"/><br/>
+            <input id="inputRecipeAmount" type="text" size="5" placeholder="Amount"/>
+            <input id="inputRecipeUnit" type="text" size="5" placeholder="Unit"/>
+            <input id="inputRecipeIngredient" type="text" size="20" placeholder="Ingredient"/>
+            <input id="inputRecipeSpecification" type="text" size="15" placeholder="Specification"/><br/> -->
+          </p>
+          <button id="btnAddRecipe">Add Recipe</button>
+          <button id="btnSaveRecipe">Save Recipe</button>
         </fieldset>
       </div>
-      <!-- /ADD USER -->
+      <!-- /ADD RECIPE -->
     </div>
     <!-- /WRAPPER -->
 </body>
