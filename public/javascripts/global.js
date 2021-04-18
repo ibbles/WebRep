@@ -54,19 +54,18 @@ function showRecipeInfo(event) {
 
   var thisRecipeObject = getRecipeObject(this);
   $('#recipeInfoName').text(thisRecipeObject.recipename);
-  var ingredientsTable = ''
+  var ingredientList = ''
   for (var i in thisRecipeObject.ingredients) {
     var ingredient = thisRecipeObject.ingredients[i]
-    ingredientsTable += '<tr>';
-    ingredientsTable += '<td>' + ingredient.amount + '</td>';
-    ingredientsTable += '<td>' + ingredient.unit + '</td>';
-    ingredientsTable += '<td>' + ingredient.name + '</td>';
+    ingredientList += ingredient.amount + ' ';
+    ingredientList += ingredient.unit + '\t';
+    ingredientList += ingredient.name;
     if (ingredient.specification !== undefined && ingredient.specification !== '') {
-      ingredientsTable += '<td>' + ingredient.specification + '</td>';
+      ingredientList += ' (' + ingredient.specification + ')';
     }
-    ingredientsTable += "</tr>";
+    ingredientList += "</br>";
   }
-  $('#recipeInfo table tbody').html(ingredientsTable);
+  $('#recipeInfo output#ingredientList').html(ingredientList);
 };
 
 

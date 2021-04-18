@@ -51,11 +51,6 @@ a {
     border:1px solid #CCC;
     background:rgba(80,120,255,0.05);
   }
-    #recipeInfo p table th {
-      padding:15px;
-      border:1px solid #CCC;
-      background:rgba(80,120,255,0.05);
-    }
 
 fieldset {
   border:0;
