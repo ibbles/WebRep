@@ -153,6 +153,16 @@ function deleteRecipe(event) {
 }
 
 
+function recipeInputHtmlRow(id, size, placeholder, value) {
+  return '<input ' +
+    'id="' + id + '" ' +
+    'type="text" ' +
+    'size="' + size + '" ' +
+    'placeholder="' + placeholder + '" ' +
+    'value="' + ((value === undefined) ? '' : value) + '"/>';
+}
+
+
 function editRecipe(event) {
   event.preventDefault();
 
@@ -163,13 +173,14 @@ function editRecipe(event) {
 
   var ingredientsTable = ''
   $.each(thisRecipeObject.ingredients, function() {
-    ingredientsTable += '<input id="inputRecipeAmount" type="text" size="5" placeholder="Amount"/>';
-    ingredientsTable += '<input id="inputRecipeUnit" type="text" size="5" placeholder="Unit"/>';
-    ingredientsTable += '<input id="inputRecipeIngredient" type="text" size="20" placeholder="Ingredient"/>';
-    ingredientsTable += '<input id="inputRecipeSpecification" type="text" size="15" placeholder="Specification"/><br/>';
+    ingredientsTable += recipeInputHtmlRow('inputRecipeAmount', 5, "Amount", this.amount);
+    ingredientsTable += recipeInputHtmlRow('inputRecipeUnit', 5, 'Unit', this.unit);
+    ingredientsTable += recipeInputHtmlRow('inputRecipeIngredient', 20,  'Ingredient', this.name);
+    ingredientsTable += recipeInputHtmlRow('inputRecipeSpecification', 15, 'Specification', this.specification);
+    ingredientsTable += '</br>'
   });
 
-  $('#addRecipe fieldset p#ingredientList').html(ingredietsTable);
+  $('#addRecipe fieldset p#ingredientList').html(ingredientsTable);
 
   // $('#addRecipe fieldset input#inputRecipeAmount').val(thisRecipeObject.amount);
   // $('#addRecipe fieldset input#inputRecipeUnit').val(thisRecipeObject.unit);
