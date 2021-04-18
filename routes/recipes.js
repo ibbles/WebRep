@@ -31,7 +31,8 @@ router.put('/editrecipe/:id', function(req, res) {
   var db = req.db;
   var collection = db.get('recipelist');
   var recipeToEdit = req.params.id;
-  collection.update({'_id': recipeToEdit}, { $set: req.body}, function(err, result) {
+  var recipe = JSON.parse(req.body.recipe);
+  collection.update({'_id': recipeToEdit}, { $set: recipe}, function(err, result) {
     res.send((err === null) ? {msg: ''} : {msg: err.message});
   });
 });

@@ -60,7 +60,7 @@ function showRecipeInfo(event) {
     ingredientList += ingredient.amount + ' ';
     ingredientList += ingredient.unit + '\t';
     ingredientList += ingredient.name;
-    if (ingredient.specification !== undefined && ingredient.specification !== '') {
+    if (ingredient.specification !== '') {
       ingredientList += ' (' + ingredient.specification + ')';
     }
     ingredientList += "</br>";
@@ -95,13 +95,19 @@ function verifyInputFields() {
 
 function getRecipeFromInputFields()
 {
-  return {
+  var recipe = {
     'recipename': $('#addRecipe fieldset input#inputRecipeName').val(),
-    'amount': $('#addRecipe fieldset input#inputRecipeAmount').val(),
-    'unit': $('#addRecipe fieldset input#inputRecipeUnit').val(),
-    'ingredient': $('#addRecipe fieldset input#inputRecipeIngredient').val(),
-    'specification': $('#addRecipe fieldset input#inputRecipeSpecification').val()
-  };
+    'ingredients': []
+  }
+  $('#addRecipe fieldset p#ingredientList span#ingredient').each(function(index, value) {
+    recipe.ingredients.push({
+      'amount': value.children.inputRecipeAmount.value,
+      'unit': value.children.inputRecipeUnit.value,
+      'name': value.children.inputRecipeIngredient.value,
+      'specification': value.children.inputRecipeSpecification.value
+    });
+  });
+  return recipe;
 }
 
 
@@ -159,7 +165,7 @@ function recipeInputHtmlRow(id, size, placeholder, value) {
     'type="text" ' +
     'size="' + size + '" ' +
     'placeholder="' + placeholder + '" ' +
-    'value="' + ((value === undefined) ? '' : value) + '"/>';
+    'value="' + value + '"/>';
 }
 
 
@@ -173,11 +179,12 @@ function editRecipe(event) {
 
   var ingredientsTable = ''
   $.each(thisRecipeObject.ingredients, function() {
+    ingredientsTable += '<span id="ingredient">';
     ingredientsTable += recipeInputHtmlRow('inputRecipeAmount', 5, "Amount", this.amount);
     ingredientsTable += recipeInputHtmlRow('inputRecipeUnit', 5, 'Unit', this.unit);
     ingredientsTable += recipeInputHtmlRow('inputRecipeIngredient', 20,  'Ingredient', this.name);
     ingredientsTable += recipeInputHtmlRow('inputRecipeSpecification', 15, 'Specification', this.specification);
-    ingredientsTable += '</br>'
+    ingredientsTable += '</span></br>'
   });
 
   $('#addRecipe fieldset p#ingredientList').html(ingredientsTable);
@@ -197,14 +204,16 @@ function saveRecipe(event) {
     return;
   }
 
-  if (!verifyInputFields()) {
-    return;
-  }
+  console.log("TODO: Commented out verification. Restore and fix.");
+  // if (!verifyInputFields()) {
+  //   return;
+  // }
+
 
   var editedRecipe = getRecipeFromInputFields();
   $.ajax({
     type: 'PUT',
-    data: editedRecipe,
+    data: {recipe: JSON.stringify(editedRecipe)},
     url: '/recipes/editrecipe/' + editRecipeId,
     dataType: 'JSON'
   }).done(function(response) {
