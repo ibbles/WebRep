@@ -10,9 +10,8 @@ $(document).ready(function() {
 
   $('#recipeList table tbody').on('click', 'td a.linkshowrecipe', showRecipeInfo);
   $('#recipeList table tbody').on('click', 'td a.linkdeleterecipe', deleteRecipe);
-  $('#recipeList table tbody').on('click', 'td a.linkeditrecipe', editRecipe);
+  $('#recipeList table tbody').on('click', 'td a.linkeditrecipe', prepareRecipeEdit);
   $('#btnAddIngredient').on('click', addIngredientRow);
-  $('#btnAddRecipe').on('click', addRecipe);
   $('#btnSaveRecipe').on('click', saveRecipe);
 });
 
@@ -69,14 +68,31 @@ function showRecipeInfo(event) {
   $('#recipeInfo output#ingredientList').html(ingredientList);
 };
 
+function isNumeric(string) {
+  return !isNaN(string.replace(',', '.'));
+}
 
 function verifyInputFields() {
   var haveChecked = false;
   var errorCount = 0;
-  $('#addRecipe input').each(function(index, val) {
+
+  if ($('#addRecipe fieldset input#inputRecipeName').val() === '') {
+    errorCount++;
+  }
+
+  $('#addRecipe fieldset p#ingredientList span#ingredient').each(function(index, value) {
     haveChecked = true;
-    if ($(this).val() === '') {
+    var fields = value.children;
+    if (!isNumeric(fields.inputIngredientAmount.value)) {
       errorCount++;
+    }
+
+    if (fields.inputIngredientUnit.value === '') {
+      errorCount++;
+    }
+
+    if (fields.inputIngredientName.value === '') {
+      errorCount++
     }
   });
 
@@ -86,7 +102,7 @@ function verifyInputFields() {
   }
 
   if (errorCount > 0) {
-    alert('Please fill in all fields.');
+    alert('Please fill in all fields. Num errors: ' + errorCount);
     return false;
   }
 
@@ -112,31 +128,46 @@ function getRecipeFromInputFields()
 }
 
 
-function addRecipe(event) {
-  event.preventDefault();
+function clearInputFields() {
+  $('#addRecipe fieldset p#ingredientList').html('');
+  $('#addRecipe fieldset input#inputRecipeName').val('');
+}
 
-  console.log("TODO: Commented out verification. Restore and fix.");
-  // if (!verifyInputFields()) {
-  //   return;
-  // }
 
-  var newRecipe = getRecipeFromInputFields();
-
+function addNewRecipe(recipe) {
   $.ajax({
     type: 'POST',
-    data: {recipe: JSON.stringify(newRecipe)},
+    data: {recipe: JSON.stringify(recipe)},
     url: '/recipes/addrecipe',
     dataType: 'JSON'
   }).done(function(response) {
     if (response.msg === '') {
-      $('#addRecipe fieldset p#ingredientList').html('');
-      $('#addRecipe fieldset input#inputRecipeName').val('');
+      clearInputFields();
       populateTable();
     }
     else {
       alert('Error: ' + response.msg);
     }
   });
+}
+
+function saveEditedRecipe(recipe) {
+  $.ajax({
+    type: 'PUT',
+    data: {recipe: JSON.stringify(recipe)},
+    url: '/recipes/editrecipe/' + editRecipeId,
+    dataType: 'JSON'
+  }).done(function(response) {
+    if (response.msg === '') {
+      clearInputFields();
+      populateTable();
+      editRecipeId = undefined;
+    }
+    else {
+      alert("Error: " + response.msg);
+    }
+  });
+
 }
 
 
@@ -194,7 +225,7 @@ function addIngredientRow(event) {
 }
 
 
-function editRecipe(event) {
+function prepareRecipeEdit(event) {
   event.preventDefault();
 
   var thisRecipeObject = getRecipeObject(this);
@@ -214,32 +245,17 @@ function editRecipe(event) {
 function saveRecipe(event) {
   event.preventDefault();
 
-  if (editRecipeId === undefined) {
-    alert("No edit in progress.");
+  console.log("TODO: Commented out verification. Restore and fix.");
+  if (!verifyInputFields()) {
     return;
   }
 
-  console.log("TODO: Commented out verification. Restore and fix.");
-  // if (!verifyInputFields()) {
-  //   return;
-  // }
+  var recipe = getRecipeFromInputFields();
 
-
-  var editedRecipe = getRecipeFromInputFields();
-  $.ajax({
-    type: 'PUT',
-    data: {recipe: JSON.stringify(editedRecipe)},
-    url: '/recipes/editrecipe/' + editRecipeId,
-    dataType: 'JSON'
-  }).done(function(response) {
-    if (response.msg === '') {
-      $('#addRecipe fieldset input').val('');
-      populateTable();
-    }
-    else {
-      alert("Error: " + response.msg);
-    }
-  });
-
-  editRecipeId = undefined;
+  if (editRecipeId === undefined) {
+    addNewRecipe(recipe);
+  }
+  else {
+    saveEditedRecipe(recipe);
+  }
 }
