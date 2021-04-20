@@ -13,7 +13,8 @@ router.get('/recipelist', function(req, res, next) {
 router.post('/addrecipe', function(req, res) {
   var db = req.db;
   var collection = db.get('recipelist');
-  collection.insert(req.body, function(err, result) {
+  var recipe = JSON.parse(req.body.recipe);
+  collection.insert(recipe, function(err, result) {
     res.send((err === null) ? {msg: ''} : {msg: err});
   });
 });
