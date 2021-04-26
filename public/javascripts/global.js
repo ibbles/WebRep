@@ -3,6 +3,19 @@ var recipeListData = [];
 
 var editRecipeId = undefined;
 
+var available_units = [
+  'ml',
+  'kr',
+  'ts',
+  'ms',
+  'dl',
+  'l',
+  'g',
+  'kg',
+  'st',
+  'sats'
+];
+
 // DOM Ready =============================================================
 $(document).ready(function() {
   // Populate the recipe table on initial page load
@@ -203,10 +216,23 @@ function createIngredientHtmlField(id, size, placeholder, value) {
 }
 
 
+function createIngredientHtmlSelect(id, name, value, values)
+{
+  // <label for="' + name + 's">Choose a value:</label>
+  var select = '<select name="' + name + '" id='+id+'>';
+  for (const v of values) {
+    selected = v == value ? " selected" : "";
+    select += '<option value="' + v + '"' +  selected + '>' + v + '</option>';
+  }
+  select += '</select>'
+  return select
+}
+
+
 function createIngredientHtmlRow(amount, unit, name, specification) {
   var row = '<span id="ingredient">';
   row += createIngredientHtmlField('inputIngredientAmount', 5, 'Amount', amount);
-  row += createIngredientHtmlField('inputIngredientUnit', 5, 'Unit', unit);
+  row += createIngredientHtmlSelect('inputIngredientUnit', 'Unit', unit, available_units);
   row += createIngredientHtmlField('inputIngredientName', 20, 'Ingredient', name);
   row += createIngredientHtmlField('inputIngredientSpecification', 15, 'Specification', specification);
   row += '</span></br>';
