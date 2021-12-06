@@ -15,23 +15,22 @@ router.get('/', function(request, response) {
     database.connect(url)
     .then(function (db) {
         var collection = db.collection('recipes');
-        return collection.find({title: recipeName}).toArray();
-    })
-    .then(function (recipes) {
-        if (recipes.length == 1) {
-            const path = "Recipes/"+recipeName+".txt";
-            const encoding = webreputils.guessEncoding(path);
-            const rawContent = filesystem.readFileSync(path);
-            const oldContent = iconv.decode(rawContent, encoding);
-            response.render('editRecipe', {recipeName: recipeName, oldContent: oldContent});
-        } else if (recipes.length == 0) {
-            response.end('No recipe named ' + recipeName + '.');
-        } else if (recipes.length > 0) {
-            response.end('Multiple recipes named ' + recipeName + '. That\'s unexpected.');
-        }
-        db.close();
+        collection.find({title: recipeName}).toArray()
+        .then(function (recipes) {
+            db.close();
+            if (recipes.length == 1) {
+                const path = "Recipes/"+recipeName+".txt";
+                const encoding = webreputils.guessEncoding(path);
+                const rawContent = filesystem.readFileSync(path);
+                const oldContent = iconv.decode(rawContent, encoding);
+                response.render('editRecipe', {recipeName: recipeName, oldContent: oldContent});
+            } else if (recipes.length == 0) {
+                response.end('No recipe named ' + recipeName + '.');
+            } else if (recipes.length > 0) {
+                response.end('Multiple recipes named ' + recipeName + '. That\'s unexpected.');
+            }
+        });
     });
-
 });
 
 module.exports = router;
