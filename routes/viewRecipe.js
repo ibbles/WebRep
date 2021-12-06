@@ -29,12 +29,14 @@ router.get('/', function(request, response) {
                             image_suffix = "" // No suffix means no image.
                         }
                         response.render('viewRecipe', {recipe: recipe, image_suffix: image_suffix});
+                        db.close();
                     } else {
                         collection.find({title: {$regex: ".*"+recipeName+".*", $options: "i"}}).toArray()
                         .then(function (recipes) {
                             response.render('recipeslist', {
                                 "recipeslist": recipes
                             });
+                            db.close();
                         });
                     }
                 });

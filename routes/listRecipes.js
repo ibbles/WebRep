@@ -60,7 +60,7 @@ router.get('/', function(request, response) {
             if (lhs.category > rhs.category) {
                 return -1;
             }
-            if (lhs.category == rhs.category) { 
+            if (lhs.category == rhs.category) {
                 return 0;
             }
             if (lhs.category < rhs.category) {
@@ -69,6 +69,7 @@ router.get('/', function(request, response) {
         });
 
         response.render("listRecipes", {categories: categories});
+        db.close();
     });
 });
 

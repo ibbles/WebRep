@@ -29,6 +29,7 @@ router.get('/', function(request, response) {
         } else if (recipes.length > 0) {
             response.end('Multiple recipes named ' + recipeName + '. That\'s unexpected.');
         }
+        db.close();
     });
 
 });

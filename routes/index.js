@@ -42,6 +42,7 @@ router.get('/thelist', function(request, response) {
                     response.render('recipeslist', {
                         "recipeslist": result
                     });
+                    db.close();
                 });
         })
         .catch(function (error) {
