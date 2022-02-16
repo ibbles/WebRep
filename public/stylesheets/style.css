@@ -11,6 +11,10 @@ a {
   color: #00B7FF;
 }
 
+.warning {
+  background: #c28981;
+}
+
 #wrapper {
   padding-left:412px;
   position:relative;
