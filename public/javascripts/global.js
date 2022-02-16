@@ -26,6 +26,9 @@ $(document).ready(function() {
   $('#recipeList table tbody').on('click', 'td a.linkeditrecipe', prepareRecipeEdit);
   $('#btnAddIngredient').on('click', addIngredientRow);
   $('#btnSaveRecipe').on('click', saveRecipe);
+  $('#btnCancelRecipe').on('click', requestClearRecipe);
+  $('#btnConfirmClearRecipe').on('click', clearRecipe);
+  $('#btnRejectClearRecipe').on('click', cancelClearRecipe);
 });
 
 // Functions =============================================================
@@ -89,6 +92,7 @@ function verifyInputFields() {
   var haveChecked = false;
   var errorCount = 0;
 
+  //TODO Reject whitespace/./!/ similar names/values.
   if ($('#addRecipe fieldset input#inputRecipeName').val() === '') {
     errorCount++;
   }
@@ -129,6 +133,8 @@ function getRecipeFromInputFields()
     'recipename': $('#addRecipe fieldset input#inputRecipeName').val(),
     'ingredients': []
   }
+
+  //TODO Trim name, ingredient etc.
   $('#addRecipe fieldset p#ingredientList span#ingredient').each(function(index, value) {
     recipe.ingredients.push({
       'amount': value.children.inputIngredientAmount.value,
@@ -271,7 +277,6 @@ function prepareRecipeEdit(event) {
 function saveRecipe(event) {
   event.preventDefault();
 
-  console.log("TODO: Commented out verification. Restore and fix.");
   if (!verifyInputFields()) {
     return;
   }
@@ -284,4 +289,23 @@ function saveRecipe(event) {
   else {
     saveEditedRecipe(recipe);
   }
+}
+
+
+function requestClearRecipe(event) {
+  event.preventDefault();
+  document.getElementById("confirmClearRecipe").hidden = false;
+}
+
+function clearRecipe(event) {
+  event.preventDefault();
+  clearInputFields();
+  editRecipeId = undefined;
+  document.getElementById("confirmClearRecipe").hidden = true;
+}
+
+
+function cancelClearRecipe(event) {
+  event.preventDefault();
+  document.getElementById("confirmClearRecipe").hidden = true;
 }
